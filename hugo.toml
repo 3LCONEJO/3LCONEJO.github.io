@@ -74,7 +74,7 @@ paginate = 5
       words = "words"
 
       [languages.en.params.logo]
-        logoText = "Terminal"
+        logoText = "JASV"
         logoHomeLink = "/"
 
       [languages.en.menu]

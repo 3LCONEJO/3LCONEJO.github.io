@@ -86,10 +86,6 @@ paginate = 5
           identifier = "github"
           name = "Github"
           url = "https://github.com/3LCONEJO"
-        [[languages.en.menu.main]]
-          identifier = "2024Proj"
-          name = "Statistics"
-          url = "https://3lconejo.github.io/page/1/2025-1_Bio1_Parcial_03.html"
 
 [module]
   # In case you would like to make changes to the theme and keep it locally in you repository,

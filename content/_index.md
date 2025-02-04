@@ -4,7 +4,7 @@ framed: true
 ---
 {{< image src="banner.png" alt="Hello Friend" position="center" >}}
 
-Hi! 👋 I’m a Genomic Science student at ENES Juriquilla, currently in my third semester. My academic interests focus on cellular senescence, cell differentiation, and gene regulation—fields that captivate me as I explore how cells age, evolve, and specialize. I’m also actively involved in bioinformatics, assisting in the development of the [VieRnes de Bioinformática en LIIGH webpage](https://viernesbioinformatica.github.io/) 🌐.
+Hi! 👋 I’m a Genomic Science student at ENES Juriquilla, currently in my fourth semester. My academic interests focus on cellular senescence, cell differentiation, and gene regulation—fields that captivate me as I explore how cells age, evolve, and specialize. I’m also actively involved in bioinformatics, assisting in the development of the [VieRnes de Bioinformática en LIIGH webpage](https://viernesbioinformatica.github.io/) 🌐.
 
 As a pseudoprogrammer, I enjoy working with R, Python, and C++, using these languages to dive into genomic data analysis and tackle computational biology challenges. My journey in genomics has allowed me to explore RNA sequencing, and I’m eager to expand my skills in single-cell analysis, ATAC-seq, and Hi-C technologies.
 

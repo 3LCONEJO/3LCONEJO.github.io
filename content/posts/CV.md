@@ -11,6 +11,23 @@ output:
     self_contained: true
 ---
 
+<style type="text/css">
+#GIANT-BUTTON {
+  background-color: unset; /* Green */
+  border: 2px red solid;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+</style>
+<a href = "https://3lconejo.github.io/posts/cv.html"><button id="GIANT-BUTTON">ESTILIZADO</button></a>
+
 
 
 

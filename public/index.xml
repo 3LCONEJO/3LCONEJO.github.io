@@ -13,7 +13,23 @@
       <pubDate>Tue, 04 Feb 2025 00:00:00 +0000</pubDate>
       
       <guid>//localhost:4321/posts/cv/</guid>
-      <description>&lt;style&gt;
+      <description>&lt;style type=&#34;text/css&#34;&gt;
+#GIANT-BUTTON {
+  background-color: unset; /* Green */
+  border: 2px red solid;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+&lt;/style&gt;
+&lt;p&gt;&lt;a href = &#34;https://3lconejo.github.io/posts/cv.html&#34;&gt;&lt;button id=&#34;GIANT-BUTTON&#34;&gt;ESTILIZADO&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;style&gt;
 :root{
   --decorator-outer-offset-left: -6.5px;
 }
@@ -33,16 +49,24 @@
 English - B2 (TOEFL-IBT) &lt;br&gt;&lt;/p&gt;
 &lt;h2 id=&#34;disclaimer&#34;&gt;Disclaimer&lt;/h2&gt;
 &lt;p&gt;Made with the R package &lt;a href=&#34;https://github.com/rstudio/pagedown&#34;&gt;&lt;strong&gt;pagedown&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Based on &lt;a href=&#34;https://github.com/EveliaCoss/CV&#34;&gt;EveliaCoss/CV&lt;/a&gt; and is powered by &lt;a href=&#34;https://github.com/nstrayer/cv&#34;&gt;nstrayer/cv&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Last updated on 2025-02-04.&lt;/p&gt;
-&lt;h1 id=&#34;main&#34;&gt;Main&lt;/h1&gt;
-&lt;h2 id=&#34;title&#34;&gt;Jorge Alfredo Suazo Victoria&lt;/h2&gt;
-&lt;p&gt;I’m a Genomic Science student at ENES Juriquilla, currently in my fourth semester.&lt;/p&gt;
-&lt;h2 data-icon=&#34;graduation-cap&#34; data-concise=&#34;true&#34; id=&#34;education&#34;&gt;Education&lt;/h2&gt;
-&lt;h3 id=&#34;genomic-sciences-student&#34;&gt;Genomic Sciences Student&lt;/h3&gt;
-&lt;p&gt;ENES Juriquilla&lt;/p&gt;
-&lt;p&gt;Queretaro, Mexico&lt;/p&gt;</description>
-      <content>&lt;style&gt;
+&lt;p&gt;Based on &lt;a href=&#34;https://github.com/EveliaCoss/CV&#34;&gt;EveliaCoss/CV&lt;/a&gt; and is powered by &lt;a href=&#34;https://github.com/nstrayer/cv&#34;&gt;nstrayer/cv&lt;/a&gt;.&lt;/p&gt;</description>
+      <content>&lt;style type=&#34;text/css&#34;&gt;
+#GIANT-BUTTON {
+  background-color: unset; /* Green */
+  border: 2px red solid;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+&lt;/style&gt;
+&lt;p&gt;&lt;a href = &#34;https://3lconejo.github.io/posts/cv.html&#34;&gt;&lt;button id=&#34;GIANT-BUTTON&#34;&gt;ESTILIZADO&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;style&gt;
 :root{
   --decorator-outer-offset-left: -6.5px;
 }

@@ -28,7 +28,7 @@
 }
 
 &lt;/style&gt;
-&lt;p&gt;&lt;a href = &#34;https://3lconejo.github.io/posts/cv.html&#34;&gt;&lt;button id=&#34;GIANT-BUTTON&#34;&gt;ESTILIZADO&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href = &#34;/posts/cvhtml&#34;&gt;&lt;button id=&#34;GIANT-BUTTON&#34;&gt;ESTILIZADO&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;style&gt;
 :root{
   --decorator-outer-offset-left: -6.5px;
@@ -65,7 +65,7 @@ English - B2 (TOEFL-IBT) &lt;br&gt;&lt;/p&gt;
 }
 
 &lt;/style&gt;
-&lt;p&gt;&lt;a href = &#34;https://3lconejo.github.io/posts/cv.html&#34;&gt;&lt;button id=&#34;GIANT-BUTTON&#34;&gt;ESTILIZADO&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href = &#34;/posts/cvhtml&#34;&gt;&lt;button id=&#34;GIANT-BUTTON&#34;&gt;ESTILIZADO&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;style&gt;
 :root{
   --decorator-outer-offset-left: -6.5px;

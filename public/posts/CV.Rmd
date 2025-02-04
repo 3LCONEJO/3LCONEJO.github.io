@@ -11,10 +11,10 @@ output:
     self_contained: true
 ---
 
-```{css}
+```{css, echo = FALSE}
 #GIANT-BUTTON {
-  background-color: #4CAF50; /* Green */
-  border: none;
+  background-color: unset; /* Green */
+  border: 2px red solid;
   color: white;
   padding: 15px 32px;
   text-align: center;
@@ -26,7 +26,7 @@ output:
 }
 
 ```
-<button id="GIANT-BUTTON">ESTILIZADO </button>
+<a href = "https://3lconejo.github.io/posts/cv.html"><button id="GIANT-BUTTON">ESTILIZADO</button></a>
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(

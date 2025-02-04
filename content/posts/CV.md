@@ -26,7 +26,7 @@ output:
 }
 
 </style>
-<a href = "https://3lconejo.github.io/posts/cv.html"><button id="GIANT-BUTTON">ESTILIZADO</button></a>
+<a href = "/posts/cvhtml"><button id="GIANT-BUTTON">ESTILIZADO</button></a>
 
 
 

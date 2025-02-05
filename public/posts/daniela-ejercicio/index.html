@@ -630,6 +630,7 @@ Example:
 </code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools mpileup -a AD -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/SRR445715.aligned.sorted.bam /home/suaria/Documents/variant_calling/data/SRR445716.aligned.sorted.bam /home/suaria/Documents/variant_calling/data/SRR445717.aligned.sorted.bam -r chrI -Ou | bcftools call -mv --ploidy <span style="color:#ae81ff">1</span> -o multi.bcf
 </span></span></code></pre></div><p><a href="/posts/untitled/"><button>Download The Binary</button></a></p>
 <h2 id="question-15-can-you-apply-the-same-filters-as-before-how-many-sites-pass-the-filters-write-the-output-to-a-bcf-file-called-multifiltbcf-and-index-the-file">Question 15: Can you apply the same filters as before? How many sites pass the filters? Write the output to a BCF file called multi.filt.bcf and index the file.<a href="#question-15-can-you-apply-the-same-filters-as-before-how-many-sites-pass-the-filters-write-the-output-to-a-bcf-file-called-multifiltbcf-and-index-the-file" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p><a href="/multi.filt.bcf"><button>Download The Filtered Binary</button></a></p>
 <p>Manual for <code>filter</code></p>
 <pre tabindex="0"><code>About:   Apply fixed-threshold filters.
 Usage:   bcftools filter [options] &lt;in.vcf.gz&gt;

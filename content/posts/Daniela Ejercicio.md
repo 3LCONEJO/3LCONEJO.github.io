@@ -476,6 +476,9 @@ bcftools mpileup -a AD -f /home/suaria/Documents/variant_calling/data/S288C_ref.
 
 ## Question 15: Can you apply the same filters as before? How many sites pass the filters? Write the output to a BCF file called multi.filt.bcf and index the file.
 
+
+<a href="/multi.filt.bcf"><button>Download The Filtered Binary</button></a>
+
 Manual for `filter`
 ```
 About:   Apply fixed-threshold filters.

@@ -26,7 +26,7 @@ output:
 }
 
 </style>
-<a href = "/posts/cvhtml"><button id="GIANT-BUTTON">ESTILIZADO</button></a>
+<a href = "/posts/cvhtml"><button id="GIANT-BUTTON">STYLIZED</button></a>
 
 
 

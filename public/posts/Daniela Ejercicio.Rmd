@@ -1,0 +1,287 @@
+---
+title: "Daniela Ejercicio"
+author: "Jorge Alfredo Suazo Victoria"
+date: "2025-02-01"
+output: 
+  html_document: 
+    toc: true
+---
+
+```{bash, eval = FALSE}
+
+cd /home/suaria/Documents/variant_calling/data
+
+for sample in SRR445715 SRR445716 SRR445717; do
+    samtools stats -r /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/${sample}.aligned.sorted.bam > ${sample}.stats
+    plot-bamstats -r /home/suaria/Documents/variant_calling/data/other_files/S288C_ref.fa.gc -p ${sample}.graphs/ ${sample}.stats
+done
+```
+
+## Question 1: What is the percentage of mapped reads in all three files? Check the insert size, GC content, per-base sequence content and quality per cycle graphs. Do they all look reasonable?
+
+The percentage of mapped reads in all three files is:
+
+### **SRR445717**
+
+1.  **Total Reads:** 13,730,526
+
+2.  **Mapped Reads:** 13,230,229 (96.4%)
+
+3.  **Mapped Bases:** 660,554,158 (96.2%)
+
+**Conclusion:**
+
+96.4% of the reads are mapped, which is a very good percentage. This indicates that the majority of the sequences aligned correctly.
+
+**Insert Size:**
+
+The peak is around 250 bp, which is normal for many paired-end sequencing libraries.
+
+**GC Content:**
+
+The graph shows a normal distribution around 50%, which is typical for many species, including humans.
+
+**Per-base Sequence Content:**
+
+There is no sign of deviation in the nucleotide composition, suggesting good sample preparation.
+
+**Quality per Cycle:**
+
+The Phred score is high for the majority of cycles, with a slight drop at the end, which is expected in Illumina sequencing.\
+
+### **SRR445716**
+
+1.  **Total Reads:** 12,870,162
+
+2.  **Mapped Reads:** 12,528,002 (96.6%)
+
+3. **Mapped Bases:** 620,450,305 (96.4%)
+
+**Conclusion:**
+
+It's seem like a good percentage of mapped reads. This indicates that the majority of the sequences aligned correctly.
+
+**Insert Size:**
+
+The peak is around 250 bp, which is normal for many paired-end sequencing libraries.
+
+**GC Content:**
+
+The graph shows a normal distribution around 50%, the peak is at 38.7.
+
+**Per-base Sequence Content:**
+
+There is no sign of deviation in the nucleotide composition, suggesting good sample preparation.
+
+**Quality per Cycle:**
+
+The Phred score is high for the majority of cycles, with a slight drop at the end, which is expected in Illumina sequencing.
+
+### **SRR445715**
+
+1.  **Total Reads:** 17,964,244
+
+2.- **Mapped Reads:** 17,503,811 (97.4%)
+
+3.- **Mapped Bases:** 888,144,619 (96.9%)
+
+**Conclusion:**
+
+97.4% of the reads are mapped, which is a very good percentage. This indicates that the majority of the sequences aligned correctly.
+
+**Insert Size:**
+
+It's seems like it have a slight error at the top of the curve.
+
+**GC Content:**
+
+The graph shows a normal distribution around 50%, the peak is at 40.
+
+**Per-base Sequence Content:**
+
+There is no sign of deviation in the nucleotide composition, suggesting good sample preparation.
+
+**Quality per Cycle:**
+
+There's a slight drop and then a depresion in the middle at graph, suggesting a problem in the quality of the reads.
+
+The error rate in theas sample is higher than the other two samples.
+
+# Generating a pileup
+
+```{bash eval = FALSE}
+samtools mpileup  -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/SRR445715.aligned.sorted.bam | less -S
+```
+
+## Question 2: What is the read depth at position chrI:29519? What is the reference base?
+Are they any non-reference bases?
+
+There may be some non-reference bases based on the encoded information, but a more detailed base call breakdown is needed to confirm.
+
+| Chromosome | Position | Reference Base | Depth | Bases |Quality|
+|------------|----------|----------------|-------|-------|-------|
+| chrI       | 29519    | A              | 56    | ,$,,.,.,..,,,,..,..,..........,.,,.,,........,.........., | BCB=A4BB9>BB@?A>B>B?BBBA@A?CB7?C8AB=@BBBCB=B@@@BBCAC?B00|
+
+## Question 3: What about at position chrI:29522? What is the reference base? Are there any non-reference bases?
+
+There are several lowercase letters in the base call string, specifically: a,
+
+| Chromosome | Position | Reference Base | Depth | Bases |Quality|
+|------------|----------|----------------|-------|-------|-------|
+| chrI       | 29522    | T              | 46    | aaaaAaAAaAAAAAAAAAAaAaaAaaAAAAAAAAaAAAAAAAAAAa | 8;??>:4BB@BABB;A=BABBCBBB?ABA=CABBBAAABC5CAB00|
+
+
+# 3. Generating genotype likelihoods and variant calling
+
+```{bash, eval = FALSE}
+bcftools mpileup -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/SRR445715.aligned.sorted.bam | less -S
+```
+
+> This is an intermediate output that contains genotype likelihoods (if you don’t remember what this is, go back to your notes on the Bayesian exercises we did!) [`OK I will`]
+
+```{bash, eval = FALSE}
+bcftools mpileup -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/SRR445715.aligned.sorted.bam | bcftools call -m --ploidy 1  | less -S
+```
+
+## Question 4: Study the command. Why did we use these settings? If you were performing variant calling in human data, what settings would you use?
+
+THe pipe use the command call and the -m parameter is descripted as "Alternative model for multiallelic and rare-variant calling (conflicts with -c)" and the --ploidy 1 means that the organism is haploid, if we want to use it in humans it would be 2.
+
+## Question 5: What option should we add to only print variant sites?
+
+The option that we should add is -v.
+
+```{bash, eval = FALSE}
+
+for sample in SRR445715 SRR445716 SRR445717; do
+bcftools mpileup -a AD -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/${sample}.aligned.sorted.bam -Ou | bcftools call -mv --ploidy 1 -o ${sample}.vcf
+done
+```
+
+## Question 6: What is the reference and variant base at position chrIV:122724?
+|Reference|Variant|
+|---------|-------|
+|G        |A      |
+
+## Question 7: What is the total read depth at position chrIV:122724?
+
+ DP=58
+   
+## Question 8: What is the number of high-quality forward reads supporting the variant call at position chrIV:122724? How many reads support the reference allele?
+0
+## Question 9: What sort of event is happening at position chrI:29007?
+The INDEL classification indicates that the event is a structural variation that involves the insertion of the G base at this position.
+
+## 4.- Variant filtering
+
+```{bash, eval = FALSE}
+bcftools query -f'POS = %POS\n' SRR445715.vcf | head
+```
+
+```
+POS = 83
+POS = 136
+POS = 137
+POS = 139
+POS = 262
+POS = 286
+POS = 305
+POS = 457
+POS = 476
+POS = 485
+```
+
+```{bash, eval = FALSE}
+bcftools query -f'%POS %REF,%ALT\n' SRR445715.vcf | head
+```
+
+```
+83 AG,A
+136 G,A
+137 C,CT
+139 TCC,TCCCC
+262 A,G
+286 A,T
+305 C,G
+457 CAAA,CAA
+476 G,T
+485 T,C
+```
+
+```{bash, eval = FALSE}
+bgzip SRR445715.vcf
+bgzip SRR445716.vcf
+bgzip SRR445717.vcf
+bcftools index SRR445715.vcf.gz
+bcftools index SRR445716.vcf.gz
+bcftools index SRR445717.vcf.gz
+bcftools merge -0 -o combined.vcf SRR445715.vcf.gz SRR445716.vcf.gz SRR445717.vcf.gz
+```
+
+```{bash, eval = FALSE}
+bcftools query -f'%POS %QUAL [%GT %AD  ] %REF %ALT\n' combined.vcf | head
+```
+```
+83 142.328 1 0,11  1 4,19  1 0,13   AG A
+136 148.417 1 0,30  1 1,71  1 0,38   G A
+137 110.074 1 10,9  1 23,24  1 6,18   C CT
+139 42.4134 1 11,3  1 35,24  1 20,9   T TCC
+244 48.0595 0 .  1 9,12  1 4,15   C CT
+262 5.85486 1 11,13  0 .  0 .   A G
+286 223.417 1 0,43  1 0,88  1 0,42   A T
+305 201.416 1 0,50  1 0,69  1 0,37   C G
+457 35.4232 1 17,16  1 41,58  0 .   CA C
+476 160.421 1 0,32  1 0,44  1 0,24   G T
+```
+
+## Question 10: Can you print rows with QUAL bigger than 30 and with at least 50 alternate reads? For this we will need to query the second value of the AD field. Note that the indexes are zero-based; the first AD value is represented as “AD[0]”, therefore the second value must be queried as “AD[1]>=50”. However, you will also need to indicate which sample to look at, to look at any sample you can use the asterisk (e.g. the instruction would look like “AD[*:1]>=50”) Hint: If you get stuck, look at the examples that Petr Danecek (pd3) explained here: https://github.com/samtools/bcftools/issues/757
+
+```{bash, eval = FALSE}
+bcftools query -f'%POS %QUAL [%GT %AD  ] %REF %ALT\n' -i'QUAL>30 && AD[*:1]>=50' combined.vcf | head
+```
+
+```
+36 148.417 1 1,71   G A
+286 223.417 1 0,88   A T
+305 201.416 1 0,50  1 0,69   C G
+457 35.4232 1 41,58   CA C
+610 225.417 1 0,58  1 0,106  1 0,77   G A
+633 225.168 1 33,102  1 20,69   T C
+681 225.417 1 0,69  1 0,51   G A
+686 185.809 1 21,66  1 13,51   A G
+778 228.323 1 0,68  1 12,63  1 4,53   A G
+1008 225.417 1 0,86  1 0,66   A G
+```
+
+```{bash, eval=FALSE}
+bcftools stats SRR445715.vcf.gz | grep TSTV | cut -f5
+```
+
+```
+# TSTV, transitions/transversions:
+[5]ts/tv
+2.90
+```
+
+
+
+## Question 11: How does the ts/tv change if you apply the filters above? Use the bcftools stats command with the -i option to include calls with QUAL at least 30 and the number of alternate reads at least 50.
+
+
+```{bash, eval=FALSE}
+bcftools stats -i'QUAL>=30 && AD[*:1]>=50' SRR445715.vcf.gz | grep TSTV | cut -f5
+```
+
+### TSTV, transitions/transversions:
+[5]ts/tv
+3.25
+
+## Question 12: What is the ts/tv of removed sites?
+
+```{bash, eval=FALSE}
+bcftools stats -e 'QUAL>=30 && AD[*:1]>=50' SRR445715.vcf.gz | grep TSTV | cut -f5
+```
+
+### TSTV, transitions/transversions:
+[5]ts/tv
+2.25

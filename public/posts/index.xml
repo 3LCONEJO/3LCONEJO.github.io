@@ -28,7 +28,7 @@
 }
 
 &lt;/style&gt;
-&lt;p&gt;&lt;a href = &#34;https://3lconejo.github.io/posts/cv.html&#34;&gt;&lt;button id=&#34;GIANT-BUTTON&#34;&gt;ESTILIZADO&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href = &#34;/posts/cvhtml&#34;&gt;&lt;button id=&#34;GIANT-BUTTON&#34;&gt;STYLIZED&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;style&gt;
 :root{
   --decorator-outer-offset-left: -6.5px;
@@ -65,7 +65,7 @@ English - B2 (TOEFL-IBT) &lt;br&gt;&lt;/p&gt;
 }
 
 &lt;/style&gt;
-&lt;p&gt;&lt;a href = &#34;https://3lconejo.github.io/posts/cv.html&#34;&gt;&lt;button id=&#34;GIANT-BUTTON&#34;&gt;ESTILIZADO&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href = &#34;/posts/cvhtml&#34;&gt;&lt;button id=&#34;GIANT-BUTTON&#34;&gt;STYLIZED&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;style&gt;
 :root{
   --decorator-outer-offset-left: -6.5px;
@@ -142,6 +142,254 @@ Dra. Aline Pingarroni - Rladies Morelia, PI&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/EveliaCoss/ViernesBioinfo2024_parte2&#34;&gt;https://github.com/EveliaCoss/ViernesBioinfo2024_parte2&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Fomentar la formación y crecimiento en bioinformática a través de cursos gratuitos para toda la comunidad interesada.&lt;/li&gt;
 &lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Daniela Ejercicio</title>
+      <link>//localhost:4321/posts/daniela-ejercicio/</link>
+      <pubDate>Sat, 01 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>//localhost:4321/posts/daniela-ejercicio/</guid>
+      <description>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd /home/suaria/Documents/variant_calling/data
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; sample in SRR445715 SRR445716 SRR445717; &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    samtools stats -r /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;sample&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;.aligned.sorted.bam &amp;gt; &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;sample&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;.stats
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    plot-bamstats -r /home/suaria/Documents/variant_calling/data/other_files/S288C_ref.fa.gc -p &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;sample&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;.graphs/ &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;sample&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;.stats
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;question-1-what-is-the-percentage-of-mapped-reads-in-all-three-files-check-the-insert-size-gc-content-per-base-sequence-content-and-quality-per-cycle-graphs-do-they-all-look-reasonable&#34;&gt;Question 1: What is the percentage of mapped reads in all three files? Check the insert size, GC content, per-base sequence content and quality per cycle graphs. Do they all look reasonable?&lt;/h2&gt;
+&lt;p&gt;The percentage of mapped reads in all three files is:&lt;/p&gt;
+&lt;h3 id=&#34;srr445717&#34;&gt;&lt;strong&gt;SRR445717&lt;/strong&gt;&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Total Reads:&lt;/strong&gt; 13,730,526&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Mapped Reads:&lt;/strong&gt; 13,230,229 (96.4%)&lt;/p&gt;</description>
+      <content>&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;cd /home/suaria/Documents/variant_calling/data
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; sample in SRR445715 SRR445716 SRR445717; &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    samtools stats -r /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;sample&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;.aligned.sorted.bam &amp;gt; &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;sample&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;.stats
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    plot-bamstats -r /home/suaria/Documents/variant_calling/data/other_files/S288C_ref.fa.gc -p &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;sample&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;.graphs/ &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;sample&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;.stats
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;question-1-what-is-the-percentage-of-mapped-reads-in-all-three-files-check-the-insert-size-gc-content-per-base-sequence-content-and-quality-per-cycle-graphs-do-they-all-look-reasonable&#34;&gt;Question 1: What is the percentage of mapped reads in all three files? Check the insert size, GC content, per-base sequence content and quality per cycle graphs. Do they all look reasonable?&lt;/h2&gt;
+&lt;p&gt;The percentage of mapped reads in all three files is:&lt;/p&gt;
+&lt;h3 id=&#34;srr445717&#34;&gt;&lt;strong&gt;SRR445717&lt;/strong&gt;&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Total Reads:&lt;/strong&gt; 13,730,526&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Mapped Reads:&lt;/strong&gt; 13,230,229 (96.4%)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Mapped Bases:&lt;/strong&gt; 660,554,158 (96.2%)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Conclusion:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;96.4% of the reads are mapped, which is a very good percentage. This indicates that the majority of the sequences aligned correctly.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Insert Size:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The peak is around 250 bp, which is normal for many paired-end sequencing libraries.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;GC Content:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The graph shows a normal distribution around 50%, which is typical for many species, including humans.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Per-base Sequence Content:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;There is no sign of deviation in the nucleotide composition, suggesting good sample preparation.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Quality per Cycle:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The Phred score is high for the majority of cycles, with a slight drop at the end, which is expected in Illumina sequencing.\&lt;/p&gt;
+&lt;h3 id=&#34;srr445716&#34;&gt;&lt;strong&gt;SRR445716&lt;/strong&gt;&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Total Reads:&lt;/strong&gt; 12,870,162&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Mapped Reads:&lt;/strong&gt; 12,528,002 (96.6%)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Mapped Bases:&lt;/strong&gt; 620,450,305 (96.4%)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Conclusion:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s seem like a good percentage of mapped reads. This indicates that the majority of the sequences aligned correctly.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Insert Size:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The peak is around 250 bp, which is normal for many paired-end sequencing libraries.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;GC Content:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The graph shows a normal distribution around 50%, the peak is at 38.7.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Per-base Sequence Content:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;There is no sign of deviation in the nucleotide composition, suggesting good sample preparation.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Quality per Cycle:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The Phred score is high for the majority of cycles, with a slight drop at the end, which is expected in Illumina sequencing.&lt;/p&gt;
+&lt;h3 id=&#34;srr445715&#34;&gt;&lt;strong&gt;SRR445715&lt;/strong&gt;&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Total Reads:&lt;/strong&gt; 17,964,244&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;2.- &lt;strong&gt;Mapped Reads:&lt;/strong&gt; 17,503,811 (97.4%)&lt;/p&gt;
+&lt;p&gt;3.- &lt;strong&gt;Mapped Bases:&lt;/strong&gt; 888,144,619 (96.9%)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Conclusion:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;97.4% of the reads are mapped, which is a very good percentage. This indicates that the majority of the sequences aligned correctly.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Insert Size:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s seems like it have a slight error at the top of the curve.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;GC Content:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The graph shows a normal distribution around 50%, the peak is at 40.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Per-base Sequence Content:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;There is no sign of deviation in the nucleotide composition, suggesting good sample preparation.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Quality per Cycle:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;There&amp;rsquo;s a slight drop and then a depresion in the middle at graph, suggesting a problem in the quality of the reads.&lt;/p&gt;
+&lt;p&gt;The error rate in theas sample is higher than the other two samples.&lt;/p&gt;
+&lt;h1 id=&#34;generating-a-pileup&#34;&gt;Generating a pileup&lt;/h1&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;samtools mpileup  -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/SRR445715.aligned.sorted.bam | less -S
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;question-2-what-is-the-read-depth-at-position-chri29519-what-is-the-reference-base&#34;&gt;Question 2: What is the read depth at position chrI:29519? What is the reference base?&lt;/h2&gt;
+&lt;p&gt;Are they any non-reference bases?&lt;/p&gt;
+&lt;p&gt;There may be some non-reference bases based on the encoded information, but a more detailed base call breakdown is needed to confirm.&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Chromosome&lt;/th&gt;
+          &lt;th&gt;Position&lt;/th&gt;
+          &lt;th&gt;Reference Base&lt;/th&gt;
+          &lt;th&gt;Depth&lt;/th&gt;
+          &lt;th&gt;Bases&lt;/th&gt;
+          &lt;th&gt;Quality&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;chrI&lt;/td&gt;
+          &lt;td&gt;29519&lt;/td&gt;
+          &lt;td&gt;A&lt;/td&gt;
+          &lt;td&gt;56&lt;/td&gt;
+          &lt;td&gt;,$,,.,.,..,,,,..,..,&amp;hellip;&amp;hellip;&amp;hellip;.,.,,.,,&amp;hellip;&amp;hellip;..,&amp;hellip;&amp;hellip;&amp;hellip;.,&lt;/td&gt;
+          &lt;td&gt;BCB=A4BB9&amp;gt;BB@?A&amp;gt;B&amp;gt;B?BBBA@A?CB7?C8AB=@BBBCB=B@@@BBCAC?B00&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;question-3-what-about-at-position-chri29522-what-is-the-reference-base-are-there-any-non-reference-bases&#34;&gt;Question 3: What about at position chrI:29522? What is the reference base? Are there any non-reference bases?&lt;/h2&gt;
+&lt;p&gt;There are several lowercase letters in the base call string, specifically: a,&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Chromosome&lt;/th&gt;
+          &lt;th&gt;Position&lt;/th&gt;
+          &lt;th&gt;Reference Base&lt;/th&gt;
+          &lt;th&gt;Depth&lt;/th&gt;
+          &lt;th&gt;Bases&lt;/th&gt;
+          &lt;th&gt;Quality&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;chrI&lt;/td&gt;
+          &lt;td&gt;29522&lt;/td&gt;
+          &lt;td&gt;T&lt;/td&gt;
+          &lt;td&gt;46&lt;/td&gt;
+          &lt;td&gt;aaaaAaAAaAAAAAAAAAAaAaaAaaAAAAAAAAaAAAAAAAAAAa&lt;/td&gt;
+          &lt;td&gt;8;??&amp;gt;:4BB@BABB;A=BABBCBBB?ABA=CABBBAAABC5CAB00&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&#34;3-generating-genotype-likelihoods-and-variant-calling&#34;&gt;3. Generating genotype likelihoods and variant calling&lt;/h1&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools mpileup -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/SRR445715.aligned.sorted.bam | less -S
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;This is an intermediate output that contains genotype likelihoods (if you don’t remember what this is, go back to your notes on the Bayesian exercises we did!) [&lt;code&gt;OK I will&lt;/code&gt;]&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools mpileup -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/SRR445715.aligned.sorted.bam | bcftools call -m --ploidy &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;  | less -S
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;question-4-study-the-command-why-did-we-use-these-settings-if-you-were-performing-variant-calling-in-human-data-what-settings-would-you-use&#34;&gt;Question 4: Study the command. Why did we use these settings? If you were performing variant calling in human data, what settings would you use?&lt;/h2&gt;
+&lt;p&gt;THe pipe use the command call and the -m parameter is descripted as &amp;ldquo;Alternative model for multiallelic and rare-variant calling (conflicts with -c)&amp;rdquo; and the &amp;ndash;ploidy 1 means that the organism is haploid, if we want to use it in humans it would be 2.&lt;/p&gt;
+&lt;h2 id=&#34;question-5-what-option-should-we-add-to-only-print-variant-sites&#34;&gt;Question 5: What option should we add to only print variant sites?&lt;/h2&gt;
+&lt;p&gt;The option that we should add is -v.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; sample in SRR445715 SRR445716 SRR445717; &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools mpileup -a AD -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;sample&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;.aligned.sorted.bam -Ou | bcftools call -mv --ploidy &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; -o &lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;sample&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;.vcf
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;question-6-what-is-the-reference-and-variant-base-at-position-chriv122724&#34;&gt;Question 6: What is the reference and variant base at position chrIV:122724?&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Reference&lt;/th&gt;
+          &lt;th&gt;Variant&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;G&lt;/td&gt;
+          &lt;td&gt;A&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;question-7-what-is-the-total-read-depth-at-position-chriv122724&#34;&gt;Question 7: What is the total read depth at position chrIV:122724?&lt;/h2&gt;
+&lt;p&gt;DP=58&lt;/p&gt;
+&lt;h2 id=&#34;question-8-what-is-the-number-of-high-quality-forward-reads-supporting-the-variant-call-at-position-chriv122724-how-many-reads-support-the-reference-allele&#34;&gt;Question 8: What is the number of high-quality forward reads supporting the variant call at position chrIV:122724? How many reads support the reference allele?&lt;/h2&gt;
+&lt;p&gt;0&lt;/p&gt;
+&lt;h2 id=&#34;question-9-what-sort-of-event-is-happening-at-position-chri29007&#34;&gt;Question 9: What sort of event is happening at position chrI:29007?&lt;/h2&gt;
+&lt;p&gt;The INDEL classification indicates that the event is a structural variation that involves the insertion of the G base at this position.&lt;/p&gt;
+&lt;h2 id=&#34;4--variant-filtering&#34;&gt;4.- Variant filtering&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools query -f&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;POS = %POS\n&amp;#39;&lt;/span&gt; SRR445715.vcf | head
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;POS = 83
+POS = 136
+POS = 137
+POS = 139
+POS = 262
+POS = 286
+POS = 305
+POS = 457
+POS = 476
+POS = 485
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools query -f&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;%POS %REF,%ALT\n&amp;#39;&lt;/span&gt; SRR445715.vcf | head
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;83 AG,A
+136 G,A
+137 C,CT
+139 TCC,TCCCC
+262 A,G
+286 A,T
+305 C,G
+457 CAAA,CAA
+476 G,T
+485 T,C
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bgzip SRR445715.vcf
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bgzip SRR445716.vcf
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bgzip SRR445717.vcf
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools index SRR445715.vcf.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools index SRR445716.vcf.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools index SRR445717.vcf.gz
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools merge -0 -o combined.vcf SRR445715.vcf.gz SRR445716.vcf.gz SRR445717.vcf.gz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools query -f&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;%POS %QUAL [%GT %AD  ] %REF %ALT\n&amp;#39;&lt;/span&gt; combined.vcf | head
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;83 142.328 1 0,11  1 4,19  1 0,13   AG A
+136 148.417 1 0,30  1 1,71  1 0,38   G A
+137 110.074 1 10,9  1 23,24  1 6,18   C CT
+139 42.4134 1 11,3  1 35,24  1 20,9   T TCC
+244 48.0595 0 .  1 9,12  1 4,15   C CT
+262 5.85486 1 11,13  0 .  0 .   A G
+286 223.417 1 0,43  1 0,88  1 0,42   A T
+305 201.416 1 0,50  1 0,69  1 0,37   C G
+457 35.4232 1 17,16  1 41,58  0 .   CA C
+476 160.421 1 0,32  1 0,44  1 0,24   G T
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;question-10-can-you-print-rows-with-qual-bigger-than-30-and-with-at-least-50-alternate-reads-for-this-we-will-need-to-query-the-second-value-of-the-ad-field-note-that-the-indexes-are-zero-based-the-first-ad-value-is-represented-as-ad0-therefore-the-second-value-must-be-queried-as-ad150-however-you-will-also-need-to-indicate-which-sample-to-look-at-to-look-at-any-sample-you-can-use-the-asterisk-eg-the-instruction-would-look-like-ad150-hint-if-you-get-stuck-look-at-the-examples-that-petr-danecek-pd3-explained-here-httpsgithubcomsamtoolsbcftoolsissues757&#34;&gt;Question 10: Can you print rows with QUAL bigger than 30 and with at least 50 alternate reads? For this we will need to query the second value of the AD field. Note that the indexes are zero-based; the first AD value is represented as “AD[0]”, therefore the second value must be queried as “AD[1]&amp;gt;=50”. However, you will also need to indicate which sample to look at, to look at any sample you can use the asterisk (e.g. the instruction would look like “AD[*:1]&amp;gt;=50”) Hint: If you get stuck, look at the examples that Petr Danecek (pd3) explained here: &lt;a href=&#34;https://github.com/samtools/bcftools/issues/757&#34;&gt;https://github.com/samtools/bcftools/issues/757&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools query -f&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;%POS %QUAL [%GT %AD  ] %REF %ALT\n&amp;#39;&lt;/span&gt; -i&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;QUAL&amp;gt;30 &amp;amp;&amp;amp; AD[*:1]&amp;gt;=50&amp;#39;&lt;/span&gt; combined.vcf | head
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;36 148.417 1 1,71   G A
+286 223.417 1 0,88   A T
+305 201.416 1 0,50  1 0,69   C G
+457 35.4232 1 41,58   CA C
+610 225.417 1 0,58  1 0,106  1 0,77   G A
+633 225.168 1 33,102  1 20,69   T C
+681 225.417 1 0,69  1 0,51   G A
+686 185.809 1 21,66  1 13,51   A G
+778 228.323 1 0,68  1 12,63  1 4,53   A G
+1008 225.417 1 0,86  1 0,66   A G
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools stats SRR445715.vcf.gz | grep TSTV | cut -f5
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;# TSTV, transitions/transversions:
+[5]ts/tv
+2.90
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;question-11-how-does-the-tstv-change-if-you-apply-the-filters-above-use-the-bcftools-stats-command-with-the--i-option-to-include-calls-with-qual-at-least-30-and-the-number-of-alternate-reads-at-least-50&#34;&gt;Question 11: How does the ts/tv change if you apply the filters above? Use the bcftools stats command with the -i option to include calls with QUAL at least 30 and the number of alternate reads at least 50.&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools stats -i&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;QUAL&amp;gt;=30 &amp;amp;&amp;amp; AD[*:1]&amp;gt;=50&amp;#39;&lt;/span&gt; SRR445715.vcf.gz | grep TSTV | cut -f5
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;tstv-transitionstransversions&#34;&gt;TSTV, transitions/transversions:&lt;/h3&gt;
+&lt;p&gt;[5]ts/tv
+3.25&lt;/p&gt;
+&lt;h2 id=&#34;question-12-what-is-the-tstv-of-removed-sites&#34;&gt;Question 12: What is the ts/tv of removed sites?&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools stats -e &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;QUAL&amp;gt;=30 &amp;amp;&amp;amp; AD[*:1]&amp;gt;=50&amp;#39;&lt;/span&gt; SRR445715.vcf.gz | grep TSTV | cut -f5
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;tstv-transitionstransversions-1&#34;&gt;TSTV, transitions/transversions:&lt;/h3&gt;
+&lt;p&gt;[5]ts/tv
+2.25&lt;/p&gt;
 </content>
     </item>
     

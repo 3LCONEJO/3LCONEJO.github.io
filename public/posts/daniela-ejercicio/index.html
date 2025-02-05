@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=livereload" data-no-instant defer></script>
+  
+    <title>Day One in: Variant calling and Ensembl VEP exercises - LCGEJ :: Jorge Alfredo Suazo Victoria</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" cd /home/suaria/Documents/variant_calling/data for sample in SRR445715 SRR445716 SRR445717; do samtools stats -r /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/${sample}.aligned.sorted.bam &gt; ${sample}.stats plot-bamstats -r /home/suaria/Documents/variant_calling/data/other_files/S288C_ref.fa.gc -p ${sample}.graphs/ ${sample}.stats done Question 1: What is the percentage of mapped reads in all three files? Check the insert size, GC content, per-base sequence content and quality per cycle graphs. Do they all look reasonable? The percentage of mapped reads in all three files is:
+SRR445717 Total Reads: 13,730,526
+Mapped Reads: 13,230,229 (96.4%)
+" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="//localhost:4321/posts/daniela-ejercicio/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/buttons.min.2bc533403a27dfe0e93105a92502b42ce4587e2e4a87d9f7d349e51e16e09478.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/code.min.00125962708925857e7b66dbc58391d55be1191a3d0ce2034de8c9cd2c481c36.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/fonts.min.4881f0c525f3ce2a1864fb6e96676396cebe1e6fcef1933e8e1dde7041004fb5.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/footer.min.2e3eb191baee58dd05a9f0104ac1fab0827bca7c64dafe0b2579f934c33a1d69.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/header.min.b6fb4423cf82a9f9d7abc9cd010223fa3d70a6526a3f28f8e17d814c06e18f9e.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/main.min.fe8dc560fccb53a458b0db19ccb7b265764ac46b68596b7e099c6793054dd457.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/menu.min.83637a90d903026bc280d3f82f96ceb06c5fc72b7c1a8d686afb5bbf818a29f7.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/pagination.min.82f6400eae7c7c6dc3c866733c2ec0579e4089608fea69400ff85b3880aa0d3c.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/post.min.fc74ca360273c1d828da3c02b8174eba435607b369d98418ccc6f2243cd4e75d.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/prism.min.9023bbc24533d09e97a51a0a42a5a7bfe4c591ae167c5551fb1d2191d11977c0.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/syntax.min.cc789ed9377260d7949ea4c18781fc58959a89287210fe4edbff44ebfc1511b6.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/terminal.min.dd0bf9c7cacb24c1b0184f52f1869b274e06689557468cc7030ccf632328eb97.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="//localhost:4321/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="//localhost:4321/favicon.png">
+<link rel="apple-touch-icon" href="//localhost:4321/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="Jorge Alfredo Suazo Victoria" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Day One in: Variant calling and Ensembl VEP exercises - LCGEJ">
+<meta property="og:description" content=" cd /home/suaria/Documents/variant_calling/data for sample in SRR445715 SRR445716 SRR445717; do samtools stats -r /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/${sample}.aligned.sorted.bam &gt; ${sample}.stats plot-bamstats -r /home/suaria/Documents/variant_calling/data/other_files/S288C_ref.fa.gc -p ${sample}.graphs/ ${sample}.stats done Question 1: What is the percentage of mapped reads in all three files? Check the insert size, GC content, per-base sequence content and quality per cycle graphs. Do they all look reasonable? The percentage of mapped reads in all three files is:
+SRR445717 Total Reads: 13,730,526
+Mapped Reads: 13,230,229 (96.4%)
+" />
+<meta property="og:url" content="//localhost:4321/posts/daniela-ejercicio/" />
+<meta property="og:site_name" content="Jorge Alfredo Suazo Victoria" />
+
+  <meta property="og:image" content="//localhost:4321/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2025-02-01 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    JASV
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="https://github.com/3LCONEJO">Github</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="/about" >About</a></li>
+        
+      
+        
+          <li><a href="https://github.com/3LCONEJO" >Github</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="//localhost:4321/posts/daniela-ejercicio/">Day One in: Variant calling and Ensembl VEP exercises - LCGEJ</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2025-02-01</time><span class="post-author">Jorge Alfredo Suazo Victoria</span></div>
+
+  
+  
+
+
+  
+    <div class="table-of-contents">
+      <h2>
+        Index
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#question-1-what-is-the-percentage-of-mapped-reads-in-all-three-files-check-the-insert-size-gc-content-per-base-sequence-content-and-quality-per-cycle-graphs-do-they-all-look-reasonable">Question 1: What is the percentage of mapped reads in all three files? Check the insert size, GC content, per-base sequence content and quality per cycle graphs. Do they all look reasonable?</a>
+      <ul>
+        <li><a href="#srr445717"><strong>SRR445717</strong></a></li>
+        <li><a href="#srr445716"><strong>SRR445716</strong></a></li>
+        <li><a href="#srr445715"><strong>SRR445715</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#question-2-what-is-the-read-depth-at-position-chri29519-what-is-the-reference-base">Question 2: What is the read depth at position chrI:29519? What is the reference base?</a></li>
+    <li><a href="#question-3-what-about-at-position-chri29522-what-is-the-reference-base-are-there-any-non-reference-bases">Question 3: What about at position chrI:29522? What is the reference base? Are there any non-reference bases?</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#question-4-study-the-command-why-did-we-use-these-settings-if-you-were-performing-variant-calling-in-human-data-what-settings-would-you-use">Question 4: Study the command. Why did we use these settings? If you were performing variant calling in human data, what settings would you use?</a></li>
+    <li><a href="#question-5-what-option-should-we-add-to-only-print-variant-sites">Question 5: What option should we add to only print variant sites?</a></li>
+    <li><a href="#question-6-what-is-the-reference-and-variant-base-at-position-chriv122724">Question 6: What is the reference and variant base at position chrIV:122724?</a></li>
+    <li><a href="#question-7-what-is-the-total-read-depth-at-position-chriv122724">Question 7: What is the total read depth at position chrIV:122724?</a></li>
+    <li><a href="#question-8-what-is-the-number-of-high-quality-forward-reads-supporting-the-variant-call-at-position-chriv122724-how-many-reads-support-the-reference-allele">Question 8: What is the number of high-quality forward reads supporting the variant call at position chrIV:122724? How many reads support the reference allele?</a></li>
+    <li><a href="#question-9-what-sort-of-event-is-happening-at-position-chri29007">Question 9: What sort of event is happening at position chrI:29007?</a></li>
+    <li><a href="#4--variant-filtering">4.- Variant filtering</a></li>
+    <li><a href="#question-10-can-you-print-rows-with-qual-bigger-than-30-and-with-at-least-50-alternate-reads-for-this-we-will-need-to-query-the-second-value-of-the-ad-field-note-that-the-indexes-are-zero-based-the-first-ad-value-is-represented-as-ad0-therefore-the-second-value-must-be-queried-as-ad150-however-you-will-also-need-to-indicate-which-sample-to-look-at-to-look-at-any-sample-you-can-use-the-asterisk-eg-the-instruction-would-look-like-ad150-hint-if-you-get-stuck-look-at-the-examples-that-petr-danecek-pd3-explained-here-httpsgithubcomsamtoolsbcftoolsissues757">Question 10: Can you print rows with QUAL bigger than 30 and with at least 50 alternate reads? For this we will need to query the second value of the AD field. Note that the indexes are zero-based; the first AD value is represented as “AD[0]”, therefore the second value must be queried as “AD[1]&gt;=50”. However, you will also need to indicate which sample to look at, to look at any sample you can use the asterisk (e.g. the instruction would look like “AD[*:1]&gt;=50”) Hint: If you get stuck, look at the examples that Petr Danecek (pd3) explained here: <a href="https://github.com/samtools/bcftools/issues/757">https://github.com/samtools/bcftools/issues/757</a></a></li>
+    <li><a href="#question-11-how-does-the-tstv-change-if-you-apply-the-filters-above-use-the-bcftools-stats-command-with-the--i-option-to-include-calls-with-qual-at-least-30-and-the-number-of-alternate-reads-at-least-50">Question 11: How does the ts/tv change if you apply the filters above? Use the bcftools stats command with the -i option to include calls with QUAL at least 30 and the number of alternate reads at least 50.</a>
+      <ul>
+        <li><a href="#tstv-transitionstransversions">TSTV, transitions/transversions:</a></li>
+      </ul>
+    </li>
+    <li><a href="#question-12-what-is-the-tstv-of-removed-sites">Question 12: What is the ts/tv of removed sites?</a>
+      <ul>
+        <li><a href="#tstv-transitionstransversions-1">TSTV, transitions/transversions:</a></li>
+        <li><a href="#confusion">Confusion</a></li>
+      </ul>
+    </li>
+    <li><a href="#question-13-can-you-see-why-position-chri1101-passed-these-filters-and-why-did-position-chri1107-fail-the-filtering-step">Question 13: Can you see why position chrI:1101 passed these filters? And why did position chrI:1107 fail the filtering step?</a></li>
+    <li><a href="#chat-gpt">CHAT GPT</a>
+      <ul>
+        <li><a href="#1-field-components"><strong>1. Field Components:</strong></a></li>
+        <li><a href="#2-what-is-variant-distance-bias-vdb"><strong>2. What Is Variant Distance Bias (VDB)?</strong></a></li>
+        <li><a href="#3-practical-example"><strong>3. Practical Example:</strong></a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#question-14-there-are-three-bam-files-in-the-original-directory-mntatgc-d2bioinfoiidroblesvariant_callingdata-sure-they-are-can-you-modify-the-command-from-section-3-to-use-all-three-bam-files-and-only-write-out-variant-sites-in-chromosome-i-write-the-output-to-a-compressed-bcf-file-called-multibcf-and-index-the-file-afterwards">Question 14: There are three BAM files in the original directory /mnt/atgc-d2/bioinfoII/drobles/variant_calling/data/ [sure they are]. Can you modify the command from section 3 to use all three BAM files and only write out variant sites in chromosome I? Write the output to a compressed BCF file called multi.bcf and index the file afterwards.</a></li>
+    <li><a href="#question-15-can-you-apply-the-same-filters-as-before-how-many-sites-pass-the-filters-write-the-output-to-a-bcf-file-called-multifiltbcf-and-index-the-file">Question 15: Can you apply the same filters as before? How many sites pass the filters? Write the output to a BCF file called multi.filt.bcf and index the file.</a>
+      <ul>
+        <li><a href="#tstv-transitionstransversions-2">TSTV, transitions/transversions:</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+  
+
+  <div class="post-content"><div>
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cd /home/suaria/Documents/variant_calling/data
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> sample in SRR445715 SRR445716 SRR445717; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    samtools stats -r /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/<span style="color:#e6db74">${</span>sample<span style="color:#e6db74">}</span>.aligned.sorted.bam &gt; <span style="color:#e6db74">${</span>sample<span style="color:#e6db74">}</span>.stats
+</span></span><span style="display:flex;"><span>    plot-bamstats -r /home/suaria/Documents/variant_calling/data/other_files/S288C_ref.fa.gc -p <span style="color:#e6db74">${</span>sample<span style="color:#e6db74">}</span>.graphs/ <span style="color:#e6db74">${</span>sample<span style="color:#e6db74">}</span>.stats
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><h2 id="question-1-what-is-the-percentage-of-mapped-reads-in-all-three-files-check-the-insert-size-gc-content-per-base-sequence-content-and-quality-per-cycle-graphs-do-they-all-look-reasonable">Question 1: What is the percentage of mapped reads in all three files? Check the insert size, GC content, per-base sequence content and quality per cycle graphs. Do they all look reasonable?<a href="#question-1-what-is-the-percentage-of-mapped-reads-in-all-three-files-check-the-insert-size-gc-content-per-base-sequence-content-and-quality-per-cycle-graphs-do-they-all-look-reasonable" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>The percentage of mapped reads in all three files is:</p>
+<h3 id="srr445717"><strong>SRR445717</strong><a href="#srr445717" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<ol>
+<li>
+<p><strong>Total Reads:</strong> 13,730,526</p>
+</li>
+<li>
+<p><strong>Mapped Reads:</strong> 13,230,229 (96.4%)</p>
+</li>
+<li>
+<p><strong>Mapped Bases:</strong> 660,554,158 (96.2%)</p>
+</li>
+</ol>
+<p><strong>Conclusion:</strong></p>
+<p>96.4% of the reads are mapped, which is a very good percentage. This indicates that the majority of the sequences aligned correctly.</p>
+<p><strong>Insert Size:</strong></p>
+<p>The peak is around 250 bp, which is normal for many paired-end sequencing libraries.</p>
+<p><strong>GC Content:</strong></p>
+<p>The graph shows a normal distribution around 50%, which is typical for many species, including humans.</p>
+<p><strong>Per-base Sequence Content:</strong></p>
+<p>There is no sign of deviation in the nucleotide composition, suggesting good sample preparation.</p>
+<p><strong>Quality per Cycle:</strong></p>
+<p>The Phred score is high for the majority of cycles, with a slight drop at the end, which is expected in Illumina sequencing.\</p>
+<h3 id="srr445716"><strong>SRR445716</strong><a href="#srr445716" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<ol>
+<li>
+<p><strong>Total Reads:</strong> 12,870,162</p>
+</li>
+<li>
+<p><strong>Mapped Reads:</strong> 12,528,002 (96.6%)</p>
+</li>
+<li>
+<p><strong>Mapped Bases:</strong> 620,450,305 (96.4%)</p>
+</li>
+</ol>
+<p><strong>Conclusion:</strong></p>
+<p>It&rsquo;s seem like a good percentage of mapped reads. This indicates that the majority of the sequences aligned correctly.</p>
+<p><strong>Insert Size:</strong></p>
+<p>The peak is around 250 bp, which is normal for many paired-end sequencing libraries.</p>
+<p><strong>GC Content:</strong></p>
+<p>The graph shows a normal distribution around 50%, the peak is at 38.7.</p>
+<p><strong>Per-base Sequence Content:</strong></p>
+<p>There is no sign of deviation in the nucleotide composition, suggesting good sample preparation.</p>
+<p><strong>Quality per Cycle:</strong></p>
+<p>The Phred score is high for the majority of cycles, with a slight drop at the end, which is expected in Illumina sequencing.</p>
+<h3 id="srr445715"><strong>SRR445715</strong><a href="#srr445715" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<ol>
+<li><strong>Total Reads:</strong> 17,964,244</li>
+</ol>
+<p>2.- <strong>Mapped Reads:</strong> 17,503,811 (97.4%)</p>
+<p>3.- <strong>Mapped Bases:</strong> 888,144,619 (96.9%)</p>
+<p><strong>Conclusion:</strong></p>
+<p>97.4% of the reads are mapped, which is a very good percentage. This indicates that the majority of the sequences aligned correctly.</p>
+<p><strong>Insert Size:</strong></p>
+<p>It&rsquo;s seems like it have a slight error at the top of the curve.</p>
+<p><strong>GC Content:</strong></p>
+<p>The graph shows a normal distribution around 50%, the peak is at 40.</p>
+<p><strong>Per-base Sequence Content:</strong></p>
+<p>There is no sign of deviation in the nucleotide composition, suggesting good sample preparation.</p>
+<p><strong>Quality per Cycle:</strong></p>
+<p>There&rsquo;s a slight drop and then a depresion in the middle at graph, suggesting a problem in the quality of the reads.</p>
+<p>The error rate in theas sample is higher than the other two samples.</p>
+<h1 id="generating-a-pileup">Generating a pileup<a href="#generating-a-pileup" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>samtools mpileup  -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/SRR445715.aligned.sorted.bam | less -S
+</span></span></code></pre></div><h2 id="question-2-what-is-the-read-depth-at-position-chri29519-what-is-the-reference-base">Question 2: What is the read depth at position chrI:29519? What is the reference base?<a href="#question-2-what-is-the-read-depth-at-position-chri29519-what-is-the-reference-base" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>Are they any non-reference bases?</p>
+<p>There may be some non-reference bases based on the encoded information, but a more detailed base call breakdown is needed to confirm.</p>
+<table>
+  <thead>
+      <tr>
+          <th>Chromosome</th>
+          <th>Position</th>
+          <th>Reference Base</th>
+          <th>Depth</th>
+          <th>Bases</th>
+          <th>Quality</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>chrI</td>
+          <td>29519</td>
+          <td>A</td>
+          <td>56</td>
+          <td>,$,,.,.,..,,,,..,..,&hellip;&hellip;&hellip;.,.,,.,,&hellip;&hellip;..,&hellip;&hellip;&hellip;.,</td>
+          <td>BCB=A4BB9&gt;BB@?A&gt;B&gt;B?BBBA@A?CB7?C8AB=@BBBCB=B@@@BBCAC?B00</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="question-3-what-about-at-position-chri29522-what-is-the-reference-base-are-there-any-non-reference-bases">Question 3: What about at position chrI:29522? What is the reference base? Are there any non-reference bases?<a href="#question-3-what-about-at-position-chri29522-what-is-the-reference-base-are-there-any-non-reference-bases" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>There are several lowercase letters in the base call string, specifically: a,</p>
+<table>
+  <thead>
+      <tr>
+          <th>Chromosome</th>
+          <th>Position</th>
+          <th>Reference Base</th>
+          <th>Depth</th>
+          <th>Bases</th>
+          <th>Quality</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>chrI</td>
+          <td>29522</td>
+          <td>T</td>
+          <td>46</td>
+          <td>aaaaAaAAaAAAAAAAAAAaAaaAaaAAAAAAAAaAAAAAAAAAAa</td>
+          <td>8;??&gt;:4BB@BABB;A=BABBCBBB?ABA=CABBBAAABC5CAB00</td>
+      </tr>
+  </tbody>
+</table>
+<h1 id="3-generating-genotype-likelihoods-and-variant-calling">3. Generating genotype likelihoods and variant calling<a href="#3-generating-genotype-likelihoods-and-variant-calling" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools mpileup -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/SRR445715.aligned.sorted.bam | less -S
+</span></span></code></pre></div><blockquote>
+<p>This is an intermediate output that contains genotype likelihoods (if you don’t remember what this is, go back to your notes on the Bayesian exercises we did!) [<code>OK I will</code>]</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools mpileup -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/SRR445715.aligned.sorted.bam | bcftools call -m --ploidy <span style="color:#ae81ff">1</span>  | less -S
+</span></span></code></pre></div><h2 id="question-4-study-the-command-why-did-we-use-these-settings-if-you-were-performing-variant-calling-in-human-data-what-settings-would-you-use">Question 4: Study the command. Why did we use these settings? If you were performing variant calling in human data, what settings would you use?<a href="#question-4-study-the-command-why-did-we-use-these-settings-if-you-were-performing-variant-calling-in-human-data-what-settings-would-you-use" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>THe pipe use the command call and the -m parameter is descripted as &ldquo;Alternative model for multiallelic and rare-variant calling (conflicts with -c)&rdquo; and the &ndash;ploidy 1 means that the organism is haploid, if we want to use it in humans it would be 2.</p>
+<h2 id="question-5-what-option-should-we-add-to-only-print-variant-sites">Question 5: What option should we add to only print variant sites?<a href="#question-5-what-option-should-we-add-to-only-print-variant-sites" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>The option that we should add is -v.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> sample in SRR445715 SRR445716 SRR445717; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>bcftools mpileup -a AD -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/<span style="color:#e6db74">${</span>sample<span style="color:#e6db74">}</span>.aligned.sorted.bam -Ou | bcftools call -mv --ploidy <span style="color:#ae81ff">1</span> -o <span style="color:#e6db74">${</span>sample<span style="color:#e6db74">}</span>.vcf
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><h2 id="question-6-what-is-the-reference-and-variant-base-at-position-chriv122724">Question 6: What is the reference and variant base at position chrIV:122724?<a href="#question-6-what-is-the-reference-and-variant-base-at-position-chriv122724" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<table>
+  <thead>
+      <tr>
+          <th>Reference</th>
+          <th>Variant</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>G</td>
+          <td>A</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="question-7-what-is-the-total-read-depth-at-position-chriv122724">Question 7: What is the total read depth at position chrIV:122724?<a href="#question-7-what-is-the-total-read-depth-at-position-chriv122724" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>DP=58</p>
+<h2 id="question-8-what-is-the-number-of-high-quality-forward-reads-supporting-the-variant-call-at-position-chriv122724-how-many-reads-support-the-reference-allele">Question 8: What is the number of high-quality forward reads supporting the variant call at position chrIV:122724? How many reads support the reference allele?<a href="#question-8-what-is-the-number-of-high-quality-forward-reads-supporting-the-variant-call-at-position-chriv122724-how-many-reads-support-the-reference-allele" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>0</p>
+<h2 id="question-9-what-sort-of-event-is-happening-at-position-chri29007">Question 9: What sort of event is happening at position chrI:29007?<a href="#question-9-what-sort-of-event-is-happening-at-position-chri29007" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>The INDEL classification indicates that the event is a structural variation that involves the insertion of the G base at this position.</p>
+<h2 id="4--variant-filtering">4.- Variant filtering<a href="#4--variant-filtering" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools query -f<span style="color:#e6db74">&#39;POS = %POS\n&#39;</span> SRR445715.vcf | head
+</span></span></code></pre></div><pre tabindex="0"><code>POS = 83
+POS = 136
+POS = 137
+POS = 139
+POS = 262
+POS = 286
+POS = 305
+POS = 457
+POS = 476
+POS = 485
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools query -f<span style="color:#e6db74">&#39;%POS %REF,%ALT\n&#39;</span> SRR445715.vcf | head
+</span></span></code></pre></div><pre tabindex="0"><code>83 AG,A
+136 G,A
+137 C,CT
+139 TCC,TCCCC
+262 A,G
+286 A,T
+305 C,G
+457 CAAA,CAA
+476 G,T
+485 T,C
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bgzip SRR445715.vcf
+</span></span><span style="display:flex;"><span>bgzip SRR445716.vcf
+</span></span><span style="display:flex;"><span>bgzip SRR445717.vcf
+</span></span><span style="display:flex;"><span>bcftools index SRR445715.vcf.gz
+</span></span><span style="display:flex;"><span>bcftools index SRR445716.vcf.gz
+</span></span><span style="display:flex;"><span>bcftools index SRR445717.vcf.gz
+</span></span><span style="display:flex;"><span>bcftools merge -0 -o combined.vcf SRR445715.vcf.gz SRR445716.vcf.gz SRR445717.vcf.gz
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools query -f<span style="color:#e6db74">&#39;%POS %QUAL [%GT %AD  ] %REF %ALT\n&#39;</span> combined.vcf | head
+</span></span></code></pre></div><pre tabindex="0"><code>83 142.328 1 0,11  1 4,19  1 0,13   AG A
+136 148.417 1 0,30  1 1,71  1 0,38   G A
+137 110.074 1 10,9  1 23,24  1 6,18   C CT
+139 42.4134 1 11,3  1 35,24  1 20,9   T TCC
+244 48.0595 0 .  1 9,12  1 4,15   C CT
+262 5.85486 1 11,13  0 .  0 .   A G
+286 223.417 1 0,43  1 0,88  1 0,42   A T
+305 201.416 1 0,50  1 0,69  1 0,37   C G
+457 35.4232 1 17,16  1 41,58  0 .   CA C
+476 160.421 1 0,32  1 0,44  1 0,24   G T
+</code></pre><h2 id="question-10-can-you-print-rows-with-qual-bigger-than-30-and-with-at-least-50-alternate-reads-for-this-we-will-need-to-query-the-second-value-of-the-ad-field-note-that-the-indexes-are-zero-based-the-first-ad-value-is-represented-as-ad0-therefore-the-second-value-must-be-queried-as-ad150-however-you-will-also-need-to-indicate-which-sample-to-look-at-to-look-at-any-sample-you-can-use-the-asterisk-eg-the-instruction-would-look-like-ad150-hint-if-you-get-stuck-look-at-the-examples-that-petr-danecek-pd3-explained-here-httpsgithubcomsamtoolsbcftoolsissues757">Question 10: Can you print rows with QUAL bigger than 30 and with at least 50 alternate reads? For this we will need to query the second value of the AD field. Note that the indexes are zero-based; the first AD value is represented as “AD[0]”, therefore the second value must be queried as “AD[1]&gt;=50”. However, you will also need to indicate which sample to look at, to look at any sample you can use the asterisk (e.g. the instruction would look like “AD[*:1]&gt;=50”) Hint: If you get stuck, look at the examples that Petr Danecek (pd3) explained here: <a href="https://github.com/samtools/bcftools/issues/757">https://github.com/samtools/bcftools/issues/757</a><a href="#question-10-can-you-print-rows-with-qual-bigger-than-30-and-with-at-least-50-alternate-reads-for-this-we-will-need-to-query-the-second-value-of-the-ad-field-note-that-the-indexes-are-zero-based-the-first-ad-value-is-represented-as-ad0-therefore-the-second-value-must-be-queried-as-ad150-however-you-will-also-need-to-indicate-which-sample-to-look-at-to-look-at-any-sample-you-can-use-the-asterisk-eg-the-instruction-would-look-like-ad150-hint-if-you-get-stuck-look-at-the-examples-that-petr-danecek-pd3-explained-here-httpsgithubcomsamtoolsbcftoolsissues757" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools query -f<span style="color:#e6db74">&#39;%POS %QUAL [%GT %AD  ] %REF %ALT\n&#39;</span> -i<span style="color:#e6db74">&#39;QUAL&gt;30 &amp;&amp; AD[*:1]&gt;=50&#39;</span> combined.vcf | head
+</span></span></code></pre></div><pre tabindex="0"><code>36 148.417 1 1,71   G A
+286 223.417 1 0,88   A T
+305 201.416 1 0,50  1 0,69   C G
+457 35.4232 1 41,58   CA C
+610 225.417 1 0,58  1 0,106  1 0,77   G A
+633 225.168 1 33,102  1 20,69   T C
+681 225.417 1 0,69  1 0,51   G A
+686 185.809 1 21,66  1 13,51   A G
+778 228.323 1 0,68  1 12,63  1 4,53   A G
+1008 225.417 1 0,86  1 0,66   A G
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools stats SRR445715.vcf.gz | grep TSTV | cut -f5
+</span></span></code></pre></div><pre tabindex="0"><code># TSTV, transitions/transversions:
+[5]ts/tv
+2.90
+</code></pre><h2 id="question-11-how-does-the-tstv-change-if-you-apply-the-filters-above-use-the-bcftools-stats-command-with-the--i-option-to-include-calls-with-qual-at-least-30-and-the-number-of-alternate-reads-at-least-50">Question 11: How does the ts/tv change if you apply the filters above? Use the bcftools stats command with the -i option to include calls with QUAL at least 30 and the number of alternate reads at least 50.<a href="#question-11-how-does-the-tstv-change-if-you-apply-the-filters-above-use-the-bcftools-stats-command-with-the--i-option-to-include-calls-with-qual-at-least-30-and-the-number-of-alternate-reads-at-least-50" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools stats -i<span style="color:#e6db74">&#39;QUAL&gt;=30 &amp;&amp; AD[*:1]&gt;=50&#39;</span> SRR445715.vcf.gz | grep TSTV | cut -f5
+</span></span></code></pre></div><h3 id="tstv-transitionstransversions">TSTV, transitions/transversions:<a href="#tstv-transitionstransversions" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<p>[5]ts/tv
+3.25</p>
+<h2 id="question-12-what-is-the-tstv-of-removed-sites">Question 12: What is the ts/tv of removed sites?<a href="#question-12-what-is-the-tstv-of-removed-sites" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools stats -e <span style="color:#e6db74">&#39;QUAL&gt;=30 &amp;&amp; AD[*:1]&gt;=50&#39;</span> SRR445715.vcf.gz | grep TSTV | cut -f5
+</span></span></code></pre></div><h3 id="tstv-transitionstransversions-1">TSTV, transitions/transversions:<a href="#tstv-transitionstransversions-1" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<p>[5]ts/tv
+2.25</p>
+<h3 id="confusion">Confusion<a href="#confusion" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<p>Can you apply the above filters to produce a final callset and apply the -g and -G options to soft filter variants around indels? [Is this a real question?, I thought that the command below was the answer]</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools filter -sLowQual -m+ -i<span style="color:#e6db74">&#39;QUAL&gt;=30 &amp;&amp; AD[*:1]&gt;=50&#39;</span> -g8 -G10 combined.vcf -o combined.flt.vcf
+</span></span></code></pre></div><h2 id="question-13-can-you-see-why-position-chri1101-passed-these-filters-and-why-did-position-chri1107-fail-the-filtering-step">Question 13: Can you see why position chrI:1101 passed these filters? And why did position chrI:1107 fail the filtering step?<a href="#question-13-can-you-see-why-position-chri1101-passed-these-filters-and-why-did-position-chri1107-fail-the-filtering-step" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<pre tabindex="0"><code>chrI    1101    .       G       A       152.416 PASS    VDB=0.316037;SGB=-0.69&gt;
+chrI    1107    .       T       C       86.1177 LowQual VDB=0.0031237;SGB=-0.6&gt;
+</code></pre><blockquote>
+<p>INFO=&lt;ID=VDB,Number=1,Type=Float,Description=&ldquo;Variant Distance Bias for filtering splice-site artefacts in RNA-seq data (bigger is better)&quot;,Version=&ldquo;3&rdquo;&gt;</p>
+</blockquote>
+<p>I sincerely don&rsquo;t understand completely what the VDB means, so i asked to my realy close friend.</p>
+<p><a href="#5-multi-sample-variant-calling"><button>Skip This</button></a></p>
+<h2 id="chat-gpt">CHAT GPT<a href="#chat-gpt" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>This line is from the <strong>VCF (Variant Call Format)</strong> file header, and it describes the <strong>INFO</strong> field called <code>VDB</code>. Here&rsquo;s a breakdown of what each part means:</p>
+<hr>
+<h3 id="1-field-components"><strong>1. Field Components:</strong><a href="#1-field-components" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<ul>
+<li>
+<p><strong><code>ID=VDB</code></strong></p>
+<ul>
+<li>This is the <strong>identifier</strong> of the INFO field. In this case, <code>VDB</code> stands for <strong>Variant Distance Bias</strong>.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>Number=1</code></strong></p>
+<ul>
+<li>This indicates that the field contains <strong>one value</strong> per variant.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>Type=Float</code></strong></p>
+<ul>
+<li>The value for <code>VDB</code> is a <strong>floating-point number</strong> (i.e., a decimal number).</li>
+</ul>
+</li>
+<li>
+<p><strong><code>Description=&quot;Variant Distance Bias for filtering splice-site artefacts in RNA-seq data (bigger is better)&quot;</code></strong></p>
+<ul>
+<li>This describes the purpose of the <code>VDB</code> field:
+<ul>
+<li><strong>Variant Distance Bias (VDB)</strong> measures how evenly the variant-supporting reads are distributed across the sequence.</li>
+<li>It’s particularly useful for <strong>filtering out artefacts</strong> in <strong>RNA-seq data</strong>, such as false variants near <strong>splice sites</strong>.</li>
+<li><strong>“Bigger is better”</strong> means that a <strong>higher VDB</strong> value suggests the variant is <strong>more likely to be real</strong> (less biased), while a lower VDB might indicate an artefact.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>Version=&quot;3&quot;</code></strong></p>
+<ul>
+<li>This indicates the <strong>version</strong> of the software or algorithm that generated this <code>VDB</code> value.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="2-what-is-variant-distance-bias-vdb"><strong>2. What Is Variant Distance Bias (VDB)?</strong><a href="#2-what-is-variant-distance-bias-vdb" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<ul>
+<li>
+<p><strong>Context:</strong><br>
+In RNA-seq data, reads can align imperfectly around <strong>splice sites</strong> (where exons are joined), leading to <strong>artefacts</strong>—false variants caused by misalignments rather than true biological variation.</p>
+</li>
+<li>
+<p><strong>VDB Calculation:</strong><br>
+VDB measures how <strong>evenly distributed</strong> the positions of variant-supporting reads are along the alignment:</p>
+<ul>
+<li>If reads supporting the variant are <strong>clustered</strong> together (e.g., near a splice site), the VDB will be <strong>low</strong>, suggesting a potential artefact.</li>
+<li>If reads are <strong>spread out</strong> across the region, the VDB will be <strong>high</strong>, indicating the variant is likely genuine.</li>
+</ul>
+</li>
+<li>
+<p><strong>Filtering Use:</strong><br>
+You can use VDB to <strong>filter out false positives</strong> in variant calling:</p>
+<ul>
+<li><strong>Low VDB</strong>: May indicate artefacts—consider filtering these out.</li>
+<li><strong>High VDB</strong>: More reliable variants.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="3-practical-example"><strong>3. Practical Example:</strong><a href="#3-practical-example" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<p>Let’s say you’re filtering your VCF file and want to exclude variants with potential splice-site artefacts. You might set a <strong>VDB threshold</strong> to only keep variants with higher values:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools view -i <span style="color:#e6db74">&#39;INFO/VDB &gt; 0.05&#39;</span> your_file.vcf &gt; filtered_file.vcf
+</span></span></code></pre></div><p>Here, variants with <code>VDB &gt; 0.05</code> are retained, assuming values below that might be artefacts.</p>
+<hr>
+<p>Let me know if you need more details on how to use this in your filtering or interpretation!</p>
+<p>So the position chrI:1101 passed the filter because the VDB value was higher (0.316037), suggesting a more evenly distributed set of variant-supporting reads. In contrast, position chrI:1107 failed the filtering step due to its lower VDB value (0.0031237), indicating a potential artefact or bias in the variant-supporting reads.</p>
+<h1 id="5-multi-sample-variant-calling">5. Multi-sample variant calling<a href="#5-multi-sample-variant-calling" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<h2 id="question-14-there-are-three-bam-files-in-the-original-directory-mntatgc-d2bioinfoiidroblesvariant_callingdata-sure-they-are-can-you-modify-the-command-from-section-3-to-use-all-three-bam-files-and-only-write-out-variant-sites-in-chromosome-i-write-the-output-to-a-compressed-bcf-file-called-multibcf-and-index-the-file-afterwards">Question 14: There are three BAM files in the original directory /mnt/atgc-d2/bioinfoII/drobles/variant_calling/data/ [sure they are]. Can you modify the command from section 3 to use all three BAM files and only write out variant sites in chromosome I? Write the output to a compressed BCF file called multi.bcf and index the file afterwards.<a href="#question-14-there-are-three-bam-files-in-the-original-directory-mntatgc-d2bioinfoiidroblesvariant_callingdata-sure-they-are-can-you-modify-the-command-from-section-3-to-use-all-three-bam-files-and-only-write-out-variant-sites-in-chromosome-i-write-the-output-to-a-compressed-bcf-file-called-multibcf-and-index-the-file-afterwards" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>I needed to do this before but, here&rsquo;s the manual</p>
+<pre tabindex="0"><code>Usage: bcftools mpileup [options] in1.bam [in2.bam [...]]
+
+Input options:
+  -6, --illumina1.3+      Quality is in the Illumina-1.3+ encoding
+  -A, --count-orphans     Do not discard anomalous read pairs
+  -b, --bam-list FILE     List of input BAM filenames, one per line
+  -B, --no-BAQ            Disable BAQ (per-Base Alignment Quality)
+  -C, --adjust-MQ INT     Adjust mapping quality [0]
+  -D, --full-BAQ          Apply BAQ everywhere, not just in problematic regions
+  -d, --max-depth INT     Max raw per-file depth; avoids excessive memory usage [250]
+  -E, --redo-BAQ          Recalculate BAQ on the fly, ignore existing BQs
+  -f, --fasta-ref FILE    Faidx indexed reference sequence file
+      --no-reference      Do not require fasta reference file
+  -G, --read-groups FILE  Select or exclude read groups listed in the file
+  -q, --min-MQ INT        Skip alignments with mapQ smaller than INT [0]
+  -Q, --min-BQ INT        Skip bases with baseQ/BAQ smaller than INT [1]
+      --max-BQ INT        Limit baseQ/BAQ to no more than INT [60]
+      --delta-BQ INT      Use neighbour_qual + INT if less than qual [30]
+  -r, --regions REG[,...] Comma separated list of regions in which pileup is generated
+  -R, --regions-file FILE Restrict to regions listed in a file
+      --ignore-RG         Ignore RG tags (one BAM = one sample)
+  --ls, --skip-all-set STR|INT  Skip reads with all of the bits set []
+  --ns, --skip-any-set STR|INT  Skip reads with any of the bits set [UNMAP,SECONDARY,QCFAIL,DUP]
+  --lu, --skip-all-unset STR|INT  Skip reads with all of the bits unset []
+  --nu, --skip-any-unset STR|INT  Skip reads with any of the bits unset []
+  -s, --samples LIST      Comma separated list of samples to include
+  -S, --samples-file FILE File of samples to include
+  -t, --targets REG[,...] Similar to -r but streams rather than index-jumps
+  -T, --targets-file FILE Similar to -R but streams rather than index-jumps
+  -x, --ignore-overlaps   Disable read-pair overlap detection
+      --seed INT          Random number seed used for sampling deep regions [0]
+
+Output options:
+  -a, --annotate LIST     Optional tags to output; &#39;?&#39; to list available tags []
+  -g, --gvcf INT[,...]    Group non-variant sites into gVCF blocks according
+                          To minimum per-sample DP
+      --no-version        Do not append version and command line to the header
+  -o, --output FILE       Write output to FILE [standard output]
+  -O, --output-type TYPE  &#39;b&#39; compressed BCF; &#39;u&#39; uncompressed BCF;
+                          &#39;z&#39; compressed VCF; &#39;v&#39; uncompressed VCF; 0-9 compression level [v]
+  -U, --mwu-u             Use older probability scale for Mann-Whitney U test
+      --threads INT       Use multithreading with INT worker threads [0]
+
+SNP/INDEL genotype likelihoods options:
+  -X, --config STR        Specify platform specific profiles (see below)
+  -e, --ext-prob INT      Phred-scaled gap extension seq error probability [20]
+  -F, --gap-frac FLOAT    Minimum fraction of gapped reads [0.05]
+  -h, --tandem-qual INT   Coefficient for homopolymer errors [500]
+  -I, --skip-indels       Do not perform indel calling
+  -L, --max-idepth INT    Maximum per-file depth for INDEL calling [250]
+  -m, --min-ireads INT    Minimum number gapped reads for indel candidates [2]
+  -M, --max-read-len INT  Maximum length of read to pass to BAQ algorithm [500]
+  -o, --open-prob INT     Phred-scaled gap open seq error probability [40]
+  -p, --per-sample-mF     Apply -m and -F per-sample for increased sensitivity
+  -P, --platforms STR     Comma separated list of platforms for indels [all]
+  --ar, --ambig-reads STR   What to do with ambiguous indel reads: drop,incAD,incAD0 [drop]
+      --indel-bias FLOAT  Raise to favour recall over precision [1.00]
+      --indel-size INT    Approximate maximum indel size considered [110]
+
+Configuration profiles activated with -X, --config:
+    1.12:        -Q13 -h100 -m1 -F0.002
+    illumina:    [ default values ]
+    ont:         -B -Q5 --max-BQ 30 -I [also try eg |bcftools call -P0.01]
+    pacbio-ccs:  -D -Q5 --max-BQ 50 -F0.1 -o25 -e1 --delta-BQ 10 -M99999
+
+Notes: Assuming diploid individuals.
+
+Example:
+   # See also http://samtools.github.io/bcftools/howtos/variant-calling.html
+   bcftools mpileup -Ou -f reference.fa alignments.bam | bcftools call -mv -Ob -o calls.bcf
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools mpileup -a AD -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/SRR445715.aligned.sorted.bam /home/suaria/Documents/variant_calling/data/SRR445716.aligned.sorted.bam /home/suaria/Documents/variant_calling/data/SRR445717.aligned.sorted.bam -r chrI -Ou | bcftools call -mv --ploidy <span style="color:#ae81ff">1</span> -o multi.bcf
+</span></span></code></pre></div><p><a href="/posts/untitled/"><button>Download The Binary</button></a></p>
+<h2 id="question-15-can-you-apply-the-same-filters-as-before-how-many-sites-pass-the-filters-write-the-output-to-a-bcf-file-called-multifiltbcf-and-index-the-file">Question 15: Can you apply the same filters as before? How many sites pass the filters? Write the output to a BCF file called multi.filt.bcf and index the file.<a href="#question-15-can-you-apply-the-same-filters-as-before-how-many-sites-pass-the-filters-write-the-output-to-a-bcf-file-called-multifiltbcf-and-index-the-file" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>Manual for <code>filter</code></p>
+<pre tabindex="0"><code>About:   Apply fixed-threshold filters.
+Usage:   bcftools filter [options] &lt;in.vcf.gz&gt;
+
+Options:
+    -e, --exclude EXPR             Exclude sites for which the expression is true (see man page for details)
+    -g, --SnpGap INT[:TYPE]        Filter SNPs within &lt;int&gt; base pairs of an indel (the default) or any combination of indel,mnp,bnd,other,overlap
+    -G, --IndelGap INT             Filter clusters of indels separated by &lt;int&gt; or fewer base pairs allowing only one to pass
+    -i, --include EXPR             Include only sites for which the expression is true (see man page for details
+        --mask [^]REGION           Soft filter regions, &#34;^&#34; to negate
+    -M, --mask-file [^]FILE        Soft filter regions listed in a file, &#34;^&#34; to negate
+        --mask-overlap 0|1|2       Mask if POS in the region (0), record overlaps (1), variant overlaps (2) [1]
+    -m, --mode [+x]                &#34;+&#34;: do not replace but add to existing FILTER; &#34;x&#34;: reset filters at sites which pass
+        --no-version               Do not append version and command line to the header
+    -o, --output FILE              Write output to a file [standard output]
+    -O, --output-type u|b|v|z[0-9] u/b: un/compressed BCF, v/z: un/compressed VCF, 0-9: compression level [v]
+    -r, --regions REGION           Restrict to comma-separated list of regions
+    -R, --regions-file FILE        Restrict to regions listed in a file
+        --regions-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [1]
+    -s, --soft-filter STRING       Annotate FILTER column with &lt;string&gt; or unique filter name (&#34;Filter%d&#34;) made up by the program (&#34;+&#34;)
+    -S, --set-GTs .|0              Set genotypes of failed samples to missing (.) or ref (0)
+    -t, --targets REGION           Similar to -r but streams rather than index-jumps
+    -T, --targets-file FILE        Similar to -R but streams rather than index-jumps
+        --targets-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [0]
+        --threads INT              Use multithreading with &lt;int&gt; worker threads [0]
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools filter -sLowQual -m+ -i<span style="color:#e6db74">&#39;QUAL&gt;=30 &amp;&amp; AD[*:1]&gt;=50&#39;</span> -g8 -G10 multi.bcf -o multi.filt.bcf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bcftools stats multi.filt.bcf <span style="color:#75715e">#Seeing it because i don&#39;t know how to read binary</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>bcftools stats multi.filt.bcf| wc -l <span style="color:#75715e">#Counting them by bash because I&#39;m lazy</span>
+</span></span></code></pre></div><p><code>811</code> Tara!</p>
+<p>Question 16: What is the ts/tv of the raw calls and of the filtered set?</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcftools stats multi.filt.bcf | grep TSTV | cut -f5
+</span></span></code></pre></div><h3 id="tstv-transitionstransversions-2">TSTV, transitions/transversions:<a href="#tstv-transitionstransversions-2" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<p>[5]ts/tv
+2.56</p>
+
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Read other posts</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="//localhost:4321/posts/cv/" class="button inline prev">
+        Jorge Alfredo Suazo-Victoria&#39;s CV
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="//localhost:4321/posts/untitled/" class="button inline next">
+        Sorry I&#39;m a clown
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

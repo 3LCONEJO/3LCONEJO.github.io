@@ -230,7 +230,7 @@
 }
 
 </style>
-<p><a href = "/posts/cvhtml"><button id="GIANT-BUTTON">ESTILIZADO</button></a></p>
+<p><a href = "/posts/cvhtml"><button id="GIANT-BUTTON">STYLIZED</button></a></p>
 <style>
 :root{
   --decorator-outer-offset-left: -6.5px;
@@ -258,6 +258,73 @@ English - B2 (TOEFL-IBT) <br></p>
         
           <div>
             <a class="read-more button inline" href="/posts/cv/">Read more</a>
+          </div>
+        
+      </article>
+    
+      <article class="post on-list">
+        <h2 class="post-title">
+          <a href="//localhost:4321/posts/daniela-ejercicio/">Day One in: Variant calling and Ensembl VEP exercises - LCGEJ</a>
+        </h2>
+
+        <div class="post-meta"><time class="post-date">2025-02-01</time><span class="post-author">Jorge Alfredo Suazo Victoria</span></div>
+
+        
+
+        
+
+
+        <div class="post-content">
+          
+            <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cd /home/suaria/Documents/variant_calling/data
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> sample in SRR445715 SRR445716 SRR445717; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    samtools stats -r /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/<span style="color:#e6db74">${</span>sample<span style="color:#e6db74">}</span>.aligned.sorted.bam &gt; <span style="color:#e6db74">${</span>sample<span style="color:#e6db74">}</span>.stats
+</span></span><span style="display:flex;"><span>    plot-bamstats -r /home/suaria/Documents/variant_calling/data/other_files/S288C_ref.fa.gc -p <span style="color:#e6db74">${</span>sample<span style="color:#e6db74">}</span>.graphs/ <span style="color:#e6db74">${</span>sample<span style="color:#e6db74">}</span>.stats
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span></code></pre></div><h2 id="question-1-what-is-the-percentage-of-mapped-reads-in-all-three-files-check-the-insert-size-gc-content-per-base-sequence-content-and-quality-per-cycle-graphs-do-they-all-look-reasonable">Question 1: What is the percentage of mapped reads in all three files? Check the insert size, GC content, per-base sequence content and quality per cycle graphs. Do they all look reasonable?</h2>
+<p>The percentage of mapped reads in all three files is:</p>
+<h3 id="srr445717"><strong>SRR445717</strong></h3>
+<ol>
+<li>
+<p><strong>Total Reads:</strong> 13,730,526</p>
+</li>
+<li>
+<p><strong>Mapped Reads:</strong> 13,230,229 (96.4%)</p>
+          
+        </div>
+
+        
+          <div>
+            <a class="read-more button inline" href="/posts/daniela-ejercicio/">Read more</a>
+          </div>
+        
+      </article>
+    
+      <article class="post on-list">
+        <h2 class="post-title">
+          <a href="//localhost:4321/posts/untitled/">Sorry I&rsquo;m a clown</a>
+        </h2>
+
+        <div class="post-meta"></div>
+
+        
+
+        
+
+
+        <div class="post-content">
+          
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=6mEEp32fqKDecJqM&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<p><a href="/multi.bcf"><button>Real Download</button></a></p>
+<p>I&rsquo;m regretting doing this but I already wasted my time so here you go.</p>
+          
+        </div>
+
+        
+          <div>
+            <a class="read-more button inline" href="/posts/untitled/">Read more</a>
           </div>
         
       </article>

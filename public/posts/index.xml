@@ -6,7 +6,297 @@
     <description>Recent content in Posts on Jorge Alfredo Suazo Victoria</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 04 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:4321/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 10 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:4321/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Day 2: VEP and more bcftools analyses</title>
+      <link>//localhost:4321/posts/day2/</link>
+      <pubDate>Mon, 10 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>//localhost:4321/posts/day2/</guid>
+      <description>&lt;h2 id=&#34;1-thinking-about-our-experiment&#34;&gt;1. Thinking about our experiment&lt;/h2&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;924631578&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;924631578&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+
+bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz &amp;gt;\
+present_in_IMW004_absent_in_CEN.PK113-7D.txt
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;chrI	244	C	CT	10
+chrI	675	A	G	10
+chrI	1152	T	G	10
+chrI	1397	A	G	10
+chrI	1428	T	C	10
+chrI	1757	G	T	10
+chrI	2002	G	T	10
+chrI	2029	T	C	10
+chrI	2406	A	C	10
+chrI	12227	C	T	10
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;About:   Create intersections, unions and complements of VCF files.
+Usage:   bcftools isec [options] &amp;lt;A.vcf.gz&amp;gt; &amp;lt;B.vcf.gz&amp;gt; [...]
+
+Options:
+    -c, --collapse STRING          Treat as identical records with &amp;lt;snps|indels|both|all|some|none&amp;gt;, see man page for details [none]
+    -C, --complement               Output positions present only in the first file but missing in the others
+    -e, --exclude EXPR             Exclude sites for which the expression is true
+    -f, --apply-filters LIST       Require at least one of the listed FILTER strings (e.g. &amp;#34;PASS,.&amp;#34;)
+    -i, --include EXPR             Include only sites for which the expression is true
+        --no-version               Do not append version and command line to the header
+    -n, --nfiles [+-=~]INT         Output positions present in this many (=), this many or more (+), this many or fewer (-), the exact (~) files
+    -o, --output FILE              Write output to a file [standard output]
+    -O, --output-type u|b|v|z[0-9] u/b: un/compressed BCF, v/z: un/compressed VCF, 0-9: compression level [v]
+    -p, --prefix DIR               If given, subset each of the input files accordingly, see also -w
+    -r, --regions REGION           Restrict to comma-separated list of regions
+    -R, --regions-file FILE        Restrict to regions listed in a file
+        --regions-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [1]
+    -t, --targets REGION           Similar to -r but streams rather than index-jumps
+    -T, --targets-file FILE        Similar to -R but streams rather than index-jumps
+        --targets-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [0]
+        --threads INT              Use multithreading with &amp;lt;int&amp;gt; worker threads [0]
+    -w, --write LIST               List of files to write with -p given as 1-based indexes. By default, all files are written
+
+Examples:
+   # Create intersection and complements of two sets saving the output in dir/*
+   bcftools isec A.vcf.gz B.vcf.gz -p dir
+
+   # Filter sites in A and B (but not in C) and create intersection
+   bcftools isec -e&amp;#39;MAF&amp;lt;0.01&amp;#39; -i&amp;#39;dbSNP=1&amp;#39; -e - A.vcf.gz B.vcf.gz C.vcf.gz -p dir
+
+   # Extract and write records from A shared by both A and B using exact allele match
+   bcftools isec A.vcf.gz B.vcf.gz -p dir -n =2 -w 1
+
+   # Extract and write records from C found in A and C but not in B
+   bcftools isec A.vcf.gz B.vcf.gz C.vcf.gz -p dir -n~101 -w 3
+
+   # Extract records private to A or B comparing by position only
+   bcftools isec A.vcf.gz B.vcf.gz -p dir -n -1 -c all
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;question-17-can-you-think-of-a-way-to-obtain-a-list-of-candidates-that-may-underlie-the-ability-of-these-strains-to-grow-on-lactate-hint-you-can-assume-that-variants-shared-by-both-imw004-and-imw005-are-likely-to-have-arisen-before-the-start-of-the-experiment-ie-from-the-unsequenced-initial-jen1-delta-strain-and-therefore-are-not-biologically-interesting-how-many-variants-unfiltered-are-in-imw004-that-are-not-shared-by-any-other-strain&#34;&gt;Question 17: Can you think of a way to obtain a list of candidates that may underlie the ability of these strains to grow on lactate? Hint: You can assume that variants shared by both IMW004 and IMW005 are likely to have arisen before the start of the experiment (i.e., from the unsequenced initial jen1 delta strain), and therefore are not biologically interesting. How many variants (unfiltered) are in IMW004 that are not shared by any other strain?&lt;/h2&gt;
+&lt;h3 id=&#34;my-guess&#34;&gt;My guess&lt;/h3&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;257648931&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;257648931&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz SRR445717.vcf.gz --output-type v -o IMW004_unique.vcf -w 1
+
+bcftools isec -C SRR445717.vcf.gz SRR445715.vcf.gz SRR445716.vcf.gz --output-type v -o IMW005_unique.vcf -w 1
+
+bgzip IMW004_unique.vcf
+
+bgzip IMW005_unique.vcf
+
+bcftools index IMW004_unique.vcf.gz  
+
+bcftools index IMW005_unique.vcf.gz  
+
+bcftools merge IMW004_unique.vcf.gz IMW005_unique.vcf.gz -o Lac_Uniques
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;h2 id=&#34;question-18-how-many-variants-remain-in-imw004-after-filtering&#34;&gt;Question 18: How many variants remain in IMW004 after filtering?&lt;/h2&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;456327891&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;456327891&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+bcftools filter -i&amp;#39;QUAL&amp;gt;=30 &amp;amp;&amp;amp; AD[*:1]&amp;gt;=50 &amp;amp;&amp;amp; type=&amp;#34;snp&amp;#34;&amp;#39; IMW004_unique.vcf.gz -o IMW004.flt.vcf
+
+bcftools view -H IMW004.flt.vcf | wc -l
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;25&lt;/code&gt;&lt;/p&gt;</description>
+      <content>&lt;h2 id=&#34;1-thinking-about-our-experiment&#34;&gt;1. Thinking about our experiment&lt;/h2&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;924631578&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;924631578&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+
+bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz &amp;gt;\
+present_in_IMW004_absent_in_CEN.PK113-7D.txt
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;chrI	244	C	CT	10
+chrI	675	A	G	10
+chrI	1152	T	G	10
+chrI	1397	A	G	10
+chrI	1428	T	C	10
+chrI	1757	G	T	10
+chrI	2002	G	T	10
+chrI	2029	T	C	10
+chrI	2406	A	C	10
+chrI	12227	C	T	10
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;About:   Create intersections, unions and complements of VCF files.
+Usage:   bcftools isec [options] &amp;lt;A.vcf.gz&amp;gt; &amp;lt;B.vcf.gz&amp;gt; [...]
+
+Options:
+    -c, --collapse STRING          Treat as identical records with &amp;lt;snps|indels|both|all|some|none&amp;gt;, see man page for details [none]
+    -C, --complement               Output positions present only in the first file but missing in the others
+    -e, --exclude EXPR             Exclude sites for which the expression is true
+    -f, --apply-filters LIST       Require at least one of the listed FILTER strings (e.g. &amp;#34;PASS,.&amp;#34;)
+    -i, --include EXPR             Include only sites for which the expression is true
+        --no-version               Do not append version and command line to the header
+    -n, --nfiles [+-=~]INT         Output positions present in this many (=), this many or more (+), this many or fewer (-), the exact (~) files
+    -o, --output FILE              Write output to a file [standard output]
+    -O, --output-type u|b|v|z[0-9] u/b: un/compressed BCF, v/z: un/compressed VCF, 0-9: compression level [v]
+    -p, --prefix DIR               If given, subset each of the input files accordingly, see also -w
+    -r, --regions REGION           Restrict to comma-separated list of regions
+    -R, --regions-file FILE        Restrict to regions listed in a file
+        --regions-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [1]
+    -t, --targets REGION           Similar to -r but streams rather than index-jumps
+    -T, --targets-file FILE        Similar to -R but streams rather than index-jumps
+        --targets-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [0]
+        --threads INT              Use multithreading with &amp;lt;int&amp;gt; worker threads [0]
+    -w, --write LIST               List of files to write with -p given as 1-based indexes. By default, all files are written
+
+Examples:
+   # Create intersection and complements of two sets saving the output in dir/*
+   bcftools isec A.vcf.gz B.vcf.gz -p dir
+
+   # Filter sites in A and B (but not in C) and create intersection
+   bcftools isec -e&amp;#39;MAF&amp;lt;0.01&amp;#39; -i&amp;#39;dbSNP=1&amp;#39; -e - A.vcf.gz B.vcf.gz C.vcf.gz -p dir
+
+   # Extract and write records from A shared by both A and B using exact allele match
+   bcftools isec A.vcf.gz B.vcf.gz -p dir -n =2 -w 1
+
+   # Extract and write records from C found in A and C but not in B
+   bcftools isec A.vcf.gz B.vcf.gz C.vcf.gz -p dir -n~101 -w 3
+
+   # Extract records private to A or B comparing by position only
+   bcftools isec A.vcf.gz B.vcf.gz -p dir -n -1 -c all
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;question-17-can-you-think-of-a-way-to-obtain-a-list-of-candidates-that-may-underlie-the-ability-of-these-strains-to-grow-on-lactate-hint-you-can-assume-that-variants-shared-by-both-imw004-and-imw005-are-likely-to-have-arisen-before-the-start-of-the-experiment-ie-from-the-unsequenced-initial-jen1-delta-strain-and-therefore-are-not-biologically-interesting-how-many-variants-unfiltered-are-in-imw004-that-are-not-shared-by-any-other-strain&#34;&gt;Question 17: Can you think of a way to obtain a list of candidates that may underlie the ability of these strains to grow on lactate? Hint: You can assume that variants shared by both IMW004 and IMW005 are likely to have arisen before the start of the experiment (i.e., from the unsequenced initial jen1 delta strain), and therefore are not biologically interesting. How many variants (unfiltered) are in IMW004 that are not shared by any other strain?&lt;/h2&gt;
+&lt;h3 id=&#34;my-guess&#34;&gt;My guess&lt;/h3&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;257648931&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;257648931&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz SRR445717.vcf.gz --output-type v -o IMW004_unique.vcf -w 1
+
+bcftools isec -C SRR445717.vcf.gz SRR445715.vcf.gz SRR445716.vcf.gz --output-type v -o IMW005_unique.vcf -w 1
+
+bgzip IMW004_unique.vcf
+
+bgzip IMW005_unique.vcf
+
+bcftools index IMW004_unique.vcf.gz  
+
+bcftools index IMW005_unique.vcf.gz  
+
+bcftools merge IMW004_unique.vcf.gz IMW005_unique.vcf.gz -o Lac_Uniques
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;h2 id=&#34;question-18-how-many-variants-remain-in-imw004-after-filtering&#34;&gt;Question 18: How many variants remain in IMW004 after filtering?&lt;/h2&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;456327891&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;456327891&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+bcftools filter -i&amp;#39;QUAL&amp;gt;=30 &amp;amp;&amp;amp; AD[*:1]&amp;gt;=50 &amp;amp;&amp;amp; type=&amp;#34;snp&amp;#34;&amp;#39; IMW004_unique.vcf.gz -o IMW004.flt.vcf
+
+bcftools view -H IMW004.flt.vcf | wc -l
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;25&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;question-19-how-many-variants-remain-in-imw005-after-filtering&#34;&gt;Question 19: How many variants remain in IMW005 after filtering?&lt;/h2&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;146357829&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;146357829&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+bcftools filter -i&amp;#39;QUAL&amp;gt;=30 &amp;amp;&amp;amp; AD[*:1]&amp;gt;=50 &amp;amp;&amp;amp; type=&amp;#34;snp&amp;#34;&amp;#39; IMW005_unique.vcf.gz -o IMW005.flt.vcf
+
+bcftools view -H IMW005.flt.vcf | wc -l
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;6&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;question-20-what-do-all-the-options-that-we-added-to-the-command-mean-hint-look-at-the-full-options-in-httpwwwensemblorginfodocstoolsvepscriptvep_optionshtml&#34;&gt;Question 20: What do all the options that we added to the command mean? Hint: Look at the full options in &lt;a href=&#34;http://www.ensembl.org/info/docs/tools/vep/script/vep_options.html&#34;&gt;http://www.ensembl.org/info/docs/tools/vep/script/vep_options.html&lt;/a&gt;.&lt;/h2&gt;
+&lt;h2 id=&#34;question-21-look-at-the-output-vcf-what-happened-to-the-original-vcf-did-vep-add-an-annotation-which-one&#34;&gt;Question 21: Look at the output VCF. What happened to the original VCF? Did VEP add an annotation? Which one?&lt;/h2&gt;
+&lt;p&gt;Yes, VEP added an annotation to the original VCF. They added the following header&lt;/p&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;975423681&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;975423681&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+##INFO=&amp;lt;ID=CSQ,Number=.,Type=String,Description=&amp;#34;Consequence annotations from Ensembl VEP. Format: Allele|Consequence|IMPACT|SYMBOL|Gene|Feature_type|Feature|BIOTYPE|EXON|INTRON|HGVSc|HGVSp|cDNA_position|CDS_position|Protein_position|Amino_acids|Codons|Existing_variation|DISTANCE|STRAND|FLAGS|SYMBOL_SOURCE|HGNC_ID&amp;#34;
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+</content>
+    </item>
+    
     <item>
       <title>Jorge Alfredo Suazo-Victoria&#39;s CV</title>
       <link>//localhost:4321/posts/cv/</link>
@@ -146,7 +436,7 @@ Dra. Aline Pingarroni - Rladies Morelia, PI&lt;/li&gt;
     </item>
     
     <item>
-      <title>Daniela Ejercicio</title>
+      <title>Day One in: Variant calling and Ensembl VEP exercises - LCGEJ</title>
       <link>//localhost:4321/posts/daniela-ejercicio/</link>
       <pubDate>Sat, 01 Feb 2025 00:00:00 +0000</pubDate>
       
@@ -390,6 +680,217 @@ POS = 485
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;tstv-transitionstransversions-1&#34;&gt;TSTV, transitions/transversions:&lt;/h3&gt;
 &lt;p&gt;[5]ts/tv
 2.25&lt;/p&gt;
+&lt;h3 id=&#34;confusion&#34;&gt;Confusion&lt;/h3&gt;
+&lt;p&gt;Can you apply the above filters to produce a final callset and apply the -g and -G options to soft filter variants around indels? [Is this a real question?, I thought that the command below was the answer]&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools filter -sLowQual -m+ -i&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;QUAL&amp;gt;=30 &amp;amp;&amp;amp; AD[*:1]&amp;gt;=50&amp;#39;&lt;/span&gt; -g8 -G10 combined.vcf -o combined.flt.vcf
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;question-13-can-you-see-why-position-chri1101-passed-these-filters-and-why-did-position-chri1107-fail-the-filtering-step&#34;&gt;Question 13: Can you see why position chrI:1101 passed these filters? And why did position chrI:1107 fail the filtering step?&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;chrI    1101    .       G       A       152.416 PASS    VDB=0.316037;SGB=-0.69&amp;gt;
+chrI    1107    .       T       C       86.1177 LowQual VDB=0.0031237;SGB=-0.6&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;p&gt;INFO=&amp;lt;ID=VDB,Number=1,Type=Float,Description=&amp;ldquo;Variant Distance Bias for filtering splice-site artefacts in RNA-seq data (bigger is better)&amp;quot;,Version=&amp;ldquo;3&amp;rdquo;&amp;gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;I sincerely don&amp;rsquo;t understand completely what the VDB means, so i asked to my realy close friend.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;#5-multi-sample-variant-calling&#34;&gt;&lt;button&gt;Skip This&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;chat-gpt&#34;&gt;CHAT GPT&lt;/h2&gt;
+&lt;p&gt;This line is from the &lt;strong&gt;VCF (Variant Call Format)&lt;/strong&gt; file header, and it describes the &lt;strong&gt;INFO&lt;/strong&gt; field called &lt;code&gt;VDB&lt;/code&gt;. Here&amp;rsquo;s a breakdown of what each part means:&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;1-field-components&#34;&gt;&lt;strong&gt;1. Field Components:&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;ID=VDB&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;This is the &lt;strong&gt;identifier&lt;/strong&gt; of the INFO field. In this case, &lt;code&gt;VDB&lt;/code&gt; stands for &lt;strong&gt;Variant Distance Bias&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;Number=1&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;This indicates that the field contains &lt;strong&gt;one value&lt;/strong&gt; per variant.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;Type=Float&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The value for &lt;code&gt;VDB&lt;/code&gt; is a &lt;strong&gt;floating-point number&lt;/strong&gt; (i.e., a decimal number).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;Description=&amp;quot;Variant Distance Bias for filtering splice-site artefacts in RNA-seq data (bigger is better)&amp;quot;&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;This describes the purpose of the &lt;code&gt;VDB&lt;/code&gt; field:
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Variant Distance Bias (VDB)&lt;/strong&gt; measures how evenly the variant-supporting reads are distributed across the sequence.&lt;/li&gt;
+&lt;li&gt;It’s particularly useful for &lt;strong&gt;filtering out artefacts&lt;/strong&gt; in &lt;strong&gt;RNA-seq data&lt;/strong&gt;, such as false variants near &lt;strong&gt;splice sites&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;“Bigger is better”&lt;/strong&gt; means that a &lt;strong&gt;higher VDB&lt;/strong&gt; value suggests the variant is &lt;strong&gt;more likely to be real&lt;/strong&gt; (less biased), while a lower VDB might indicate an artefact.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;Version=&amp;quot;3&amp;quot;&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;This indicates the &lt;strong&gt;version&lt;/strong&gt; of the software or algorithm that generated this &lt;code&gt;VDB&lt;/code&gt; value.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;2-what-is-variant-distance-bias-vdb&#34;&gt;&lt;strong&gt;2. What Is Variant Distance Bias (VDB)?&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Context:&lt;/strong&gt;&lt;br&gt;
+In RNA-seq data, reads can align imperfectly around &lt;strong&gt;splice sites&lt;/strong&gt; (where exons are joined), leading to &lt;strong&gt;artefacts&lt;/strong&gt;—false variants caused by misalignments rather than true biological variation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;VDB Calculation:&lt;/strong&gt;&lt;br&gt;
+VDB measures how &lt;strong&gt;evenly distributed&lt;/strong&gt; the positions of variant-supporting reads are along the alignment:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If reads supporting the variant are &lt;strong&gt;clustered&lt;/strong&gt; together (e.g., near a splice site), the VDB will be &lt;strong&gt;low&lt;/strong&gt;, suggesting a potential artefact.&lt;/li&gt;
+&lt;li&gt;If reads are &lt;strong&gt;spread out&lt;/strong&gt; across the region, the VDB will be &lt;strong&gt;high&lt;/strong&gt;, indicating the variant is likely genuine.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Filtering Use:&lt;/strong&gt;&lt;br&gt;
+You can use VDB to &lt;strong&gt;filter out false positives&lt;/strong&gt; in variant calling:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Low VDB&lt;/strong&gt;: May indicate artefacts—consider filtering these out.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;High VDB&lt;/strong&gt;: More reliable variants.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id=&#34;3-practical-example&#34;&gt;&lt;strong&gt;3. Practical Example:&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Let’s say you’re filtering your VCF file and want to exclude variants with potential splice-site artefacts. You might set a &lt;strong&gt;VDB threshold&lt;/strong&gt; to only keep variants with higher values:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools view -i &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;INFO/VDB &amp;gt; 0.05&amp;#39;&lt;/span&gt; your_file.vcf &amp;gt; filtered_file.vcf
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here, variants with &lt;code&gt;VDB &amp;gt; 0.05&lt;/code&gt; are retained, assuming values below that might be artefacts.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Let me know if you need more details on how to use this in your filtering or interpretation!&lt;/p&gt;
+&lt;p&gt;So the position chrI:1101 passed the filter because the VDB value was higher (0.316037), suggesting a more evenly distributed set of variant-supporting reads. In contrast, position chrI:1107 failed the filtering step due to its lower VDB value (0.0031237), indicating a potential artefact or bias in the variant-supporting reads.&lt;/p&gt;
+&lt;h1 id=&#34;5-multi-sample-variant-calling&#34;&gt;5. Multi-sample variant calling&lt;/h1&gt;
+&lt;h2 id=&#34;question-14-there-are-three-bam-files-in-the-original-directory-mntatgc-d2bioinfoiidroblesvariant_callingdata-sure-they-are-can-you-modify-the-command-from-section-3-to-use-all-three-bam-files-and-only-write-out-variant-sites-in-chromosome-i-write-the-output-to-a-compressed-bcf-file-called-multibcf-and-index-the-file-afterwards&#34;&gt;Question 14: There are three BAM files in the original directory /mnt/atgc-d2/bioinfoII/drobles/variant_calling/data/ [sure they are]. Can you modify the command from section 3 to use all three BAM files and only write out variant sites in chromosome I? Write the output to a compressed BCF file called multi.bcf and index the file afterwards.&lt;/h2&gt;
+&lt;p&gt;I needed to do this before but, here&amp;rsquo;s the manual&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Usage: bcftools mpileup [options] in1.bam [in2.bam [...]]
+
+Input options:
+  -6, --illumina1.3+      Quality is in the Illumina-1.3+ encoding
+  -A, --count-orphans     Do not discard anomalous read pairs
+  -b, --bam-list FILE     List of input BAM filenames, one per line
+  -B, --no-BAQ            Disable BAQ (per-Base Alignment Quality)
+  -C, --adjust-MQ INT     Adjust mapping quality [0]
+  -D, --full-BAQ          Apply BAQ everywhere, not just in problematic regions
+  -d, --max-depth INT     Max raw per-file depth; avoids excessive memory usage [250]
+  -E, --redo-BAQ          Recalculate BAQ on the fly, ignore existing BQs
+  -f, --fasta-ref FILE    Faidx indexed reference sequence file
+      --no-reference      Do not require fasta reference file
+  -G, --read-groups FILE  Select or exclude read groups listed in the file
+  -q, --min-MQ INT        Skip alignments with mapQ smaller than INT [0]
+  -Q, --min-BQ INT        Skip bases with baseQ/BAQ smaller than INT [1]
+      --max-BQ INT        Limit baseQ/BAQ to no more than INT [60]
+      --delta-BQ INT      Use neighbour_qual + INT if less than qual [30]
+  -r, --regions REG[,...] Comma separated list of regions in which pileup is generated
+  -R, --regions-file FILE Restrict to regions listed in a file
+      --ignore-RG         Ignore RG tags (one BAM = one sample)
+  --ls, --skip-all-set STR|INT  Skip reads with all of the bits set []
+  --ns, --skip-any-set STR|INT  Skip reads with any of the bits set [UNMAP,SECONDARY,QCFAIL,DUP]
+  --lu, --skip-all-unset STR|INT  Skip reads with all of the bits unset []
+  --nu, --skip-any-unset STR|INT  Skip reads with any of the bits unset []
+  -s, --samples LIST      Comma separated list of samples to include
+  -S, --samples-file FILE File of samples to include
+  -t, --targets REG[,...] Similar to -r but streams rather than index-jumps
+  -T, --targets-file FILE Similar to -R but streams rather than index-jumps
+  -x, --ignore-overlaps   Disable read-pair overlap detection
+      --seed INT          Random number seed used for sampling deep regions [0]
+
+Output options:
+  -a, --annotate LIST     Optional tags to output; &amp;#39;?&amp;#39; to list available tags []
+  -g, --gvcf INT[,...]    Group non-variant sites into gVCF blocks according
+                          To minimum per-sample DP
+      --no-version        Do not append version and command line to the header
+  -o, --output FILE       Write output to FILE [standard output]
+  -O, --output-type TYPE  &amp;#39;b&amp;#39; compressed BCF; &amp;#39;u&amp;#39; uncompressed BCF;
+                          &amp;#39;z&amp;#39; compressed VCF; &amp;#39;v&amp;#39; uncompressed VCF; 0-9 compression level [v]
+  -U, --mwu-u             Use older probability scale for Mann-Whitney U test
+      --threads INT       Use multithreading with INT worker threads [0]
+
+SNP/INDEL genotype likelihoods options:
+  -X, --config STR        Specify platform specific profiles (see below)
+  -e, --ext-prob INT      Phred-scaled gap extension seq error probability [20]
+  -F, --gap-frac FLOAT    Minimum fraction of gapped reads [0.05]
+  -h, --tandem-qual INT   Coefficient for homopolymer errors [500]
+  -I, --skip-indels       Do not perform indel calling
+  -L, --max-idepth INT    Maximum per-file depth for INDEL calling [250]
+  -m, --min-ireads INT    Minimum number gapped reads for indel candidates [2]
+  -M, --max-read-len INT  Maximum length of read to pass to BAQ algorithm [500]
+  -o, --open-prob INT     Phred-scaled gap open seq error probability [40]
+  -p, --per-sample-mF     Apply -m and -F per-sample for increased sensitivity
+  -P, --platforms STR     Comma separated list of platforms for indels [all]
+  --ar, --ambig-reads STR   What to do with ambiguous indel reads: drop,incAD,incAD0 [drop]
+      --indel-bias FLOAT  Raise to favour recall over precision [1.00]
+      --indel-size INT    Approximate maximum indel size considered [110]
+
+Configuration profiles activated with -X, --config:
+    1.12:        -Q13 -h100 -m1 -F0.002
+    illumina:    [ default values ]
+    ont:         -B -Q5 --max-BQ 30 -I [also try eg |bcftools call -P0.01]
+    pacbio-ccs:  -D -Q5 --max-BQ 50 -F0.1 -o25 -e1 --delta-BQ 10 -M99999
+
+Notes: Assuming diploid individuals.
+
+Example:
+   # See also http://samtools.github.io/bcftools/howtos/variant-calling.html
+   bcftools mpileup -Ou -f reference.fa alignments.bam | bcftools call -mv -Ob -o calls.bcf
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools mpileup -a AD -f /home/suaria/Documents/variant_calling/data/S288C_ref.fa /home/suaria/Documents/variant_calling/data/SRR445715.aligned.sorted.bam /home/suaria/Documents/variant_calling/data/SRR445716.aligned.sorted.bam /home/suaria/Documents/variant_calling/data/SRR445717.aligned.sorted.bam -r chrI -Ou | bcftools call -mv --ploidy &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; -o multi.bcf
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href=&#34;//localhost:4321/posts/untitled/&#34;&gt;&lt;button&gt;Download The Binary&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;question-15-can-you-apply-the-same-filters-as-before-how-many-sites-pass-the-filters-write-the-output-to-a-bcf-file-called-multifiltbcf-and-index-the-file&#34;&gt;Question 15: Can you apply the same filters as before? How many sites pass the filters? Write the output to a BCF file called multi.filt.bcf and index the file.&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;//localhost:4321/multi.filt.bcf&#34;&gt;&lt;button&gt;Download The Filtered Binary&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Manual for &lt;code&gt;filter&lt;/code&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;About:   Apply fixed-threshold filters.
+Usage:   bcftools filter [options] &amp;lt;in.vcf.gz&amp;gt;
+
+Options:
+    -e, --exclude EXPR             Exclude sites for which the expression is true (see man page for details)
+    -g, --SnpGap INT[:TYPE]        Filter SNPs within &amp;lt;int&amp;gt; base pairs of an indel (the default) or any combination of indel,mnp,bnd,other,overlap
+    -G, --IndelGap INT             Filter clusters of indels separated by &amp;lt;int&amp;gt; or fewer base pairs allowing only one to pass
+    -i, --include EXPR             Include only sites for which the expression is true (see man page for details
+        --mask [^]REGION           Soft filter regions, &amp;#34;^&amp;#34; to negate
+    -M, --mask-file [^]FILE        Soft filter regions listed in a file, &amp;#34;^&amp;#34; to negate
+        --mask-overlap 0|1|2       Mask if POS in the region (0), record overlaps (1), variant overlaps (2) [1]
+    -m, --mode [+x]                &amp;#34;+&amp;#34;: do not replace but add to existing FILTER; &amp;#34;x&amp;#34;: reset filters at sites which pass
+        --no-version               Do not append version and command line to the header
+    -o, --output FILE              Write output to a file [standard output]
+    -O, --output-type u|b|v|z[0-9] u/b: un/compressed BCF, v/z: un/compressed VCF, 0-9: compression level [v]
+    -r, --regions REGION           Restrict to comma-separated list of regions
+    -R, --regions-file FILE        Restrict to regions listed in a file
+        --regions-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [1]
+    -s, --soft-filter STRING       Annotate FILTER column with &amp;lt;string&amp;gt; or unique filter name (&amp;#34;Filter%d&amp;#34;) made up by the program (&amp;#34;+&amp;#34;)
+    -S, --set-GTs .|0              Set genotypes of failed samples to missing (.) or ref (0)
+    -t, --targets REGION           Similar to -r but streams rather than index-jumps
+    -T, --targets-file FILE        Similar to -R but streams rather than index-jumps
+        --targets-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [0]
+        --threads INT              Use multithreading with &amp;lt;int&amp;gt; worker threads [0]
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools filter -i&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;QUAL&amp;gt;=30 &amp;amp;&amp;amp; AD[*:1]&amp;gt;=50 &amp;amp;&amp;amp; type=&amp;#34;snp&amp;#34;&amp;#39;&lt;/span&gt; multi.bcf -o multi.filt.bcf
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools view -H multi.filt.bcf | wc -l
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;811&lt;/code&gt; Tara!&lt;/p&gt;
+&lt;p&gt;Question 16: What is the ts/tv of the raw calls and of the filtered set?&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools stats multi.filt.bcf | grep TSTV | cut -f5
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;tstv-transitionstransversions-2&#34;&gt;TSTV, transitions/transversions:&lt;/h3&gt;
+&lt;p&gt;[5]ts/tv
+2.56&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Sorry I&#39;m a clown</title>
+      <link>//localhost:4321/posts/untitled/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>//localhost:4321/posts/untitled/</guid>
+      <description>&lt;iframe width=&#34;560&#34; height=&#34;315&#34; src=&#34;https://www.youtube.com/embed/dQw4w9WgXcQ?si=6mEEp32fqKDecJqM&amp;amp;controls=0&#34; title=&#34;YouTube video player&#34; frameborder=&#34;0&#34; allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&#34;//localhost:4321/multi.bcf&#34;&gt;&lt;button&gt;Real Download&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m regretting doing this but I already wasted my time so here you go.&lt;/p&gt;</description>
+      <content>&lt;iframe width=&#34;560&#34; height=&#34;315&#34; src=&#34;https://www.youtube.com/embed/dQw4w9WgXcQ?si=6mEEp32fqKDecJqM&amp;amp;controls=0&#34; title=&#34;YouTube video player&#34; frameborder=&#34;0&#34; allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&#34; referrerpolicy=&#34;strict-origin-when-cross-origin&#34; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&#34;//localhost:4321/multi.bcf&#34;&gt;&lt;button&gt;Real Download&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m regretting doing this but I already wasted my time so here you go.&lt;/p&gt;
 </content>
     </item>
     

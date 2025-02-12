@@ -509,11 +509,9 @@ Options:
 
 
 ``` bash
-bcftools filter -sLowQual -m+ -i'QUAL>=30 && AD[*:1]>=50' -g8 -G10 multi.bcf -o multi.filt.bcf
+bcftools filter -i'QUAL>=30 && AD[*:1]>=50 && type="snp"' multi.bcf -o multi.filt.bcf
 
-bcftools stats multi.filt.bcf #Seeing it because i don't know how to read binary
-
-bcftools stats multi.filt.bcf| wc -l #Counting them by bash because I'm lazy
+bcftools view -H multi.filt.bcf | wc -l
 ```
 
 `811` Tara!

@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=livereload" data-no-instant defer></script>
+  
+    <title>Day 2: VEP and more bcftools analyses :: Jorge Alfredo Suazo Victoria</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="1. Thinking about our experiment bash bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz \&gt;\ present_in_IMW004_absent_in_CEN.PK113-7D.txt chrI 244 C CT 10 chrI 675 A G 10 chrI 1152 T G 10 chrI 1397 A G 10 chrI 1428 T C 10 chrI 1757 G T 10 chrI 2002 G T 10 chrI 2029 T C 10 chrI 2406 A C 10 chrI 12227 C T 10 About: Create intersections, unions and complements of VCF files. Usage: bcftools isec [options] &lt;A.vcf.gz&gt; &lt;B.vcf.gz&gt; [...] Options: -c, --collapse STRING Treat as identical records with &lt;snps|indels|both|all|some|none&gt;, see man page for details [none] -C, --complement Output positions present only in the first file but missing in the others -e, --exclude EXPR Exclude sites for which the expression is true -f, --apply-filters LIST Require at least one of the listed FILTER strings (e.g. &#34;PASS,.&#34;) -i, --include EXPR Include only sites for which the expression is true --no-version Do not append version and command line to the header -n, --nfiles [&#43;-=~]INT Output positions present in this many (=), this many or more (&#43;), this many or fewer (-), the exact (~) files -o, --output FILE Write output to a file [standard output] -O, --output-type u|b|v|z[0-9] u/b: un/compressed BCF, v/z: un/compressed VCF, 0-9: compression level [v] -p, --prefix DIR If given, subset each of the input files accordingly, see also -w -r, --regions REGION Restrict to comma-separated list of regions -R, --regions-file FILE Restrict to regions listed in a file --regions-overlap 0|1|2 Include if POS in the region (0), record overlaps (1), variant overlaps (2) [1] -t, --targets REGION Similar to -r but streams rather than index-jumps -T, --targets-file FILE Similar to -R but streams rather than index-jumps --targets-overlap 0|1|2 Include if POS in the region (0), record overlaps (1), variant overlaps (2) [0] --threads INT Use multithreading with &lt;int&gt; worker threads [0] -w, --write LIST List of files to write with -p given as 1-based indexes. By default, all files are written Examples: # Create intersection and complements of two sets saving the output in dir/* bcftools isec A.vcf.gz B.vcf.gz -p dir # Filter sites in A and B (but not in C) and create intersection bcftools isec -e&#39;MAF&lt;0.01&#39; -i&#39;dbSNP=1&#39; -e - A.vcf.gz B.vcf.gz C.vcf.gz -p dir # Extract and write records from A shared by both A and B using exact allele match bcftools isec A.vcf.gz B.vcf.gz -p dir -n =2 -w 1 # Extract and write records from C found in A and C but not in B bcftools isec A.vcf.gz B.vcf.gz C.vcf.gz -p dir -n~101 -w 3 # Extract records private to A or B comparing by position only bcftools isec A.vcf.gz B.vcf.gz -p dir -n -1 -c all Question 17: Can you think of a way to obtain a list of candidates that may underlie the ability of these strains to grow on lactate? Hint: You can assume that variants shared by both IMW004 and IMW005 are likely to have arisen before the start of the experiment (i.e., from the unsequenced initial jen1 delta strain), and therefore are not biologically interesting. How many variants (unfiltered) are in IMW004 that are not shared by any other strain? My guess bash bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz SRR445717.vcf.gz --output-type v -o IMW004_unique.vcf -w 1 bcftools isec -C SRR445717.vcf.gz SRR445715.vcf.gz SRR445716.vcf.gz --output-type v -o IMW005_unique.vcf -w 1 bgzip IMW004_unique.vcf bgzip IMW005_unique.vcf bcftools index IMW004_unique.vcf.gz bcftools index IMW005_unique.vcf.gz bcftools merge IMW004_unique.vcf.gz IMW005_unique.vcf.gz -o Lac_Uniques Question 18: How many variants remain in IMW004 after filtering? bash bcftools filter -i&#39;QUAL&gt;=30 &amp;&amp; AD[*:1]&gt;=50 &amp;&amp; type=&#34;snp&#34;&#39; IMW004_unique.vcf.gz -o IMW004.flt.vcf bcftools view -H IMW004.flt.vcf | wc -l 25
+" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="//localhost:4321/posts/day2/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/buttons.min.2bc533403a27dfe0e93105a92502b42ce4587e2e4a87d9f7d349e51e16e09478.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/code.min.00125962708925857e7b66dbc58391d55be1191a3d0ce2034de8c9cd2c481c36.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/fonts.min.4881f0c525f3ce2a1864fb6e96676396cebe1e6fcef1933e8e1dde7041004fb5.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/footer.min.2e3eb191baee58dd05a9f0104ac1fab0827bca7c64dafe0b2579f934c33a1d69.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/header.min.b6fb4423cf82a9f9d7abc9cd010223fa3d70a6526a3f28f8e17d814c06e18f9e.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/main.min.fe8dc560fccb53a458b0db19ccb7b265764ac46b68596b7e099c6793054dd457.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/menu.min.83637a90d903026bc280d3f82f96ceb06c5fc72b7c1a8d686afb5bbf818a29f7.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/pagination.min.82f6400eae7c7c6dc3c866733c2ec0579e4089608fea69400ff85b3880aa0d3c.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/post.min.fc74ca360273c1d828da3c02b8174eba435607b369d98418ccc6f2243cd4e75d.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/prism.min.9023bbc24533d09e97a51a0a42a5a7bfe4c591ae167c5551fb1d2191d11977c0.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/syntax.min.cc789ed9377260d7949ea4c18781fc58959a89287210fe4edbff44ebfc1511b6.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/terminal.min.dd0bf9c7cacb24c1b0184f52f1869b274e06689557468cc7030ccf632328eb97.css">
+
+  
+  <link rel="stylesheet" href="//localhost:4321/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="//localhost:4321/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="//localhost:4321/favicon.png">
+<link rel="apple-touch-icon" href="//localhost:4321/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="Jorge Alfredo Suazo Victoria" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Day 2: VEP and more bcftools analyses">
+<meta property="og:description" content="1. Thinking about our experiment bash bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz \&gt;\ present_in_IMW004_absent_in_CEN.PK113-7D.txt chrI 244 C CT 10 chrI 675 A G 10 chrI 1152 T G 10 chrI 1397 A G 10 chrI 1428 T C 10 chrI 1757 G T 10 chrI 2002 G T 10 chrI 2029 T C 10 chrI 2406 A C 10 chrI 12227 C T 10 About: Create intersections, unions and complements of VCF files. Usage: bcftools isec [options] &lt;A.vcf.gz&gt; &lt;B.vcf.gz&gt; [...] Options: -c, --collapse STRING Treat as identical records with &lt;snps|indels|both|all|some|none&gt;, see man page for details [none] -C, --complement Output positions present only in the first file but missing in the others -e, --exclude EXPR Exclude sites for which the expression is true -f, --apply-filters LIST Require at least one of the listed FILTER strings (e.g. &#34;PASS,.&#34;) -i, --include EXPR Include only sites for which the expression is true --no-version Do not append version and command line to the header -n, --nfiles [&#43;-=~]INT Output positions present in this many (=), this many or more (&#43;), this many or fewer (-), the exact (~) files -o, --output FILE Write output to a file [standard output] -O, --output-type u|b|v|z[0-9] u/b: un/compressed BCF, v/z: un/compressed VCF, 0-9: compression level [v] -p, --prefix DIR If given, subset each of the input files accordingly, see also -w -r, --regions REGION Restrict to comma-separated list of regions -R, --regions-file FILE Restrict to regions listed in a file --regions-overlap 0|1|2 Include if POS in the region (0), record overlaps (1), variant overlaps (2) [1] -t, --targets REGION Similar to -r but streams rather than index-jumps -T, --targets-file FILE Similar to -R but streams rather than index-jumps --targets-overlap 0|1|2 Include if POS in the region (0), record overlaps (1), variant overlaps (2) [0] --threads INT Use multithreading with &lt;int&gt; worker threads [0] -w, --write LIST List of files to write with -p given as 1-based indexes. By default, all files are written Examples: # Create intersection and complements of two sets saving the output in dir/* bcftools isec A.vcf.gz B.vcf.gz -p dir # Filter sites in A and B (but not in C) and create intersection bcftools isec -e&#39;MAF&lt;0.01&#39; -i&#39;dbSNP=1&#39; -e - A.vcf.gz B.vcf.gz C.vcf.gz -p dir # Extract and write records from A shared by both A and B using exact allele match bcftools isec A.vcf.gz B.vcf.gz -p dir -n =2 -w 1 # Extract and write records from C found in A and C but not in B bcftools isec A.vcf.gz B.vcf.gz C.vcf.gz -p dir -n~101 -w 3 # Extract records private to A or B comparing by position only bcftools isec A.vcf.gz B.vcf.gz -p dir -n -1 -c all Question 17: Can you think of a way to obtain a list of candidates that may underlie the ability of these strains to grow on lactate? Hint: You can assume that variants shared by both IMW004 and IMW005 are likely to have arisen before the start of the experiment (i.e., from the unsequenced initial jen1 delta strain), and therefore are not biologically interesting. How many variants (unfiltered) are in IMW004 that are not shared by any other strain? My guess bash bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz SRR445717.vcf.gz --output-type v -o IMW004_unique.vcf -w 1 bcftools isec -C SRR445717.vcf.gz SRR445715.vcf.gz SRR445716.vcf.gz --output-type v -o IMW005_unique.vcf -w 1 bgzip IMW004_unique.vcf bgzip IMW005_unique.vcf bcftools index IMW004_unique.vcf.gz bcftools index IMW005_unique.vcf.gz bcftools merge IMW004_unique.vcf.gz IMW005_unique.vcf.gz -o Lac_Uniques Question 18: How many variants remain in IMW004 after filtering? bash bcftools filter -i&#39;QUAL&gt;=30 &amp;&amp; AD[*:1]&gt;=50 &amp;&amp; type=&#34;snp&#34;&#39; IMW004_unique.vcf.gz -o IMW004.flt.vcf bcftools view -H IMW004.flt.vcf | wc -l 25
+" />
+<meta property="og:url" content="//localhost:4321/posts/day2/" />
+<meta property="og:site_name" content="Jorge Alfredo Suazo Victoria" />
+
+  <meta property="og:image" content="//localhost:4321/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2025-02-10 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    JASV
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="https://github.com/3LCONEJO">Github</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="/about" >About</a></li>
+        
+      
+        
+          <li><a href="https://github.com/3LCONEJO" >Github</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="//localhost:4321/posts/day2/">Day 2: VEP and more bcftools analyses</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2025-02-10</time><span class="post-author">Jorge Alfredo Suazo Victoria</span></div>
+
+  
+  
+
+
+  
+    <div class="table-of-contents">
+      <h2>
+        Index
+      </h2>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-thinking-about-our-experiment">1. Thinking about our experiment</a></li>
+    <li><a href="#question-17-can-you-think-of-a-way-to-obtain-a-list-of-candidates-that-may-underlie-the-ability-of-these-strains-to-grow-on-lactate-hint-you-can-assume-that-variants-shared-by-both-imw004-and-imw005-are-likely-to-have-arisen-before-the-start-of-the-experiment-ie-from-the-unsequenced-initial-jen1-delta-strain-and-therefore-are-not-biologically-interesting-how-many-variants-unfiltered-are-in-imw004-that-are-not-shared-by-any-other-strain">Question 17: Can you think of a way to obtain a list of candidates that may underlie the ability of these strains to grow on lactate? Hint: You can assume that variants shared by both IMW004 and IMW005 are likely to have arisen before the start of the experiment (i.e., from the unsequenced initial jen1 delta strain), and therefore are not biologically interesting. How many variants (unfiltered) are in IMW004 that are not shared by any other strain?</a>
+      <ul>
+        <li><a href="#my-guess">My guess</a></li>
+      </ul>
+    </li>
+    <li><a href="#question-18-how-many-variants-remain-in-imw004-after-filtering">Question 18: How many variants remain in IMW004 after filtering?</a></li>
+    <li><a href="#question-19-how-many-variants-remain-in-imw005-after-filtering">Question 19: How many variants remain in IMW005 after filtering?</a></li>
+    <li><a href="#question-20-what-do-all-the-options-that-we-added-to-the-command-mean-hint-look-at-the-full-options-in-httpwwwensemblorginfodocstoolsvepscriptvep_optionshtml">Question 20: What do all the options that we added to the command mean? Hint: Look at the full options in <a href="http://www.ensembl.org/info/docs/tools/vep/script/vep_options.html">http://www.ensembl.org/info/docs/tools/vep/script/vep_options.html</a>.</a></li>
+    <li><a href="#question-21-look-at-the-output-vcf-what-happened-to-the-original-vcf-did-vep-add-an-annotation-which-one">Question 21: Look at the output VCF. What happened to the original VCF? Did VEP add an annotation? Which one?</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#imw004-mutations">IMW004 mutations</a></li>
+    <li><a href="#imw005-mutations">IMW005 mutations</a></li>
+  </ul>
+</nav>
+    </div>
+  
+
+  <div class="post-content"><div>
+        <h2 id="1-thinking-about-our-experiment">1. Thinking about our experiment<a href="#1-thinking-about-our-experiment" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+
+
+
+  <div class="collapsable-code">
+    <input id="257934186" type="checkbox"  />
+    <label for="257934186">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+
+bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz \&gt;\
+present_in_IMW004_absent_in_CEN.PK113-7D.txt
+
+</code></pre>
+  </div>
+
+
+<pre tabindex="0"><code>chrI    244 C   CT  10
+chrI    675 A   G   10
+chrI    1152    T   G   10
+chrI    1397    A   G   10
+chrI    1428    T   C   10
+chrI    1757    G   T   10
+chrI    2002    G   T   10
+chrI    2029    T   C   10
+chrI    2406    A   C   10
+chrI    12227   C   T   10
+</code></pre><pre tabindex="0"><code>About:   Create intersections, unions and complements of VCF files.
+Usage:   bcftools isec [options] &lt;A.vcf.gz&gt; &lt;B.vcf.gz&gt; [...]
+
+Options:
+    -c, --collapse STRING          Treat as identical records with &lt;snps|indels|both|all|some|none&gt;, see man page for details [none]
+    -C, --complement               Output positions present only in the first file but missing in the others
+    -e, --exclude EXPR             Exclude sites for which the expression is true
+    -f, --apply-filters LIST       Require at least one of the listed FILTER strings (e.g. &#34;PASS,.&#34;)
+    -i, --include EXPR             Include only sites for which the expression is true
+        --no-version               Do not append version and command line to the header
+    -n, --nfiles [+-=~]INT         Output positions present in this many (=), this many or more (+), this many or fewer (-), the exact (~) files
+    -o, --output FILE              Write output to a file [standard output]
+    -O, --output-type u|b|v|z[0-9] u/b: un/compressed BCF, v/z: un/compressed VCF, 0-9: compression level [v]
+    -p, --prefix DIR               If given, subset each of the input files accordingly, see also -w
+    -r, --regions REGION           Restrict to comma-separated list of regions
+    -R, --regions-file FILE        Restrict to regions listed in a file
+        --regions-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [1]
+    -t, --targets REGION           Similar to -r but streams rather than index-jumps
+    -T, --targets-file FILE        Similar to -R but streams rather than index-jumps
+        --targets-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [0]
+        --threads INT              Use multithreading with &lt;int&gt; worker threads [0]
+    -w, --write LIST               List of files to write with -p given as 1-based indexes. By default, all files are written
+
+Examples:
+   # Create intersection and complements of two sets saving the output in dir/*
+   bcftools isec A.vcf.gz B.vcf.gz -p dir
+
+   # Filter sites in A and B (but not in C) and create intersection
+   bcftools isec -e&#39;MAF&lt;0.01&#39; -i&#39;dbSNP=1&#39; -e - A.vcf.gz B.vcf.gz C.vcf.gz -p dir
+
+   # Extract and write records from A shared by both A and B using exact allele match
+   bcftools isec A.vcf.gz B.vcf.gz -p dir -n =2 -w 1
+
+   # Extract and write records from C found in A and C but not in B
+   bcftools isec A.vcf.gz B.vcf.gz C.vcf.gz -p dir -n~101 -w 3
+
+   # Extract records private to A or B comparing by position only
+   bcftools isec A.vcf.gz B.vcf.gz -p dir -n -1 -c all
+</code></pre><h2 id="question-17-can-you-think-of-a-way-to-obtain-a-list-of-candidates-that-may-underlie-the-ability-of-these-strains-to-grow-on-lactate-hint-you-can-assume-that-variants-shared-by-both-imw004-and-imw005-are-likely-to-have-arisen-before-the-start-of-the-experiment-ie-from-the-unsequenced-initial-jen1-delta-strain-and-therefore-are-not-biologically-interesting-how-many-variants-unfiltered-are-in-imw004-that-are-not-shared-by-any-other-strain">Question 17: Can you think of a way to obtain a list of candidates that may underlie the ability of these strains to grow on lactate? Hint: You can assume that variants shared by both IMW004 and IMW005 are likely to have arisen before the start of the experiment (i.e., from the unsequenced initial jen1 delta strain), and therefore are not biologically interesting. How many variants (unfiltered) are in IMW004 that are not shared by any other strain?<a href="#question-17-can-you-think-of-a-way-to-obtain-a-list-of-candidates-that-may-underlie-the-ability-of-these-strains-to-grow-on-lactate-hint-you-can-assume-that-variants-shared-by-both-imw004-and-imw005-are-likely-to-have-arisen-before-the-start-of-the-experiment-ie-from-the-unsequenced-initial-jen1-delta-strain-and-therefore-are-not-biologically-interesting-how-many-variants-unfiltered-are-in-imw004-that-are-not-shared-by-any-other-strain" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<h3 id="my-guess">My guess<a href="#my-guess" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+
+
+
+  <div class="collapsable-code">
+    <input id="152467839" type="checkbox"  />
+    <label for="152467839">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz SRR445717.vcf.gz --output-type v -o IMW004_unique.vcf -w 1
+
+bcftools isec -C SRR445717.vcf.gz SRR445715.vcf.gz SRR445716.vcf.gz --output-type v -o IMW005_unique.vcf -w 1
+
+bgzip IMW004_unique.vcf
+
+bgzip IMW005_unique.vcf
+
+bcftools index IMW004_unique.vcf.gz  
+
+bcftools index IMW005_unique.vcf.gz  
+
+bcftools merge IMW004_unique.vcf.gz IMW005_unique.vcf.gz -o Lac_Uniques
+
+</code></pre>
+  </div>
+
+
+<h2 id="question-18-how-many-variants-remain-in-imw004-after-filtering">Question 18: How many variants remain in IMW004 after filtering?<a href="#question-18-how-many-variants-remain-in-imw004-after-filtering" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+
+
+
+  <div class="collapsable-code">
+    <input id="614738259" type="checkbox"  />
+    <label for="614738259">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+bcftools filter -i&#39;QUAL&gt;=30 &amp;&amp; AD[*:1]&gt;=50 &amp;&amp; type=&#34;snp&#34;&#39; IMW004_unique.vcf.gz -o IMW004.flt.vcf
+
+bcftools view -H IMW004.flt.vcf | wc -l
+
+</code></pre>
+  </div>
+
+
+<p><code>25</code></p>
+<h2 id="question-19-how-many-variants-remain-in-imw005-after-filtering">Question 19: How many variants remain in IMW005 after filtering?<a href="#question-19-how-many-variants-remain-in-imw005-after-filtering" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+
+
+
+  <div class="collapsable-code">
+    <input id="153842796" type="checkbox"  />
+    <label for="153842796">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+bcftools filter -i&#39;QUAL&gt;=30 &amp;&amp; AD[*:1]&gt;=50 &amp;&amp; type=&#34;snp&#34;&#39; IMW005_unique.vcf.gz -o IMW005.flt.vcf
+
+bcftools view -H IMW005.flt.vcf | wc -l
+
+</code></pre>
+  </div>
+
+
+<p><code>6</code></p>
+<h2 id="question-20-what-do-all-the-options-that-we-added-to-the-command-mean-hint-look-at-the-full-options-in-httpwwwensemblorginfodocstoolsvepscriptvep_optionshtml">Question 20: What do all the options that we added to the command mean? Hint: Look at the full options in <a href="http://www.ensembl.org/info/docs/tools/vep/script/vep_options.html">http://www.ensembl.org/info/docs/tools/vep/script/vep_options.html</a>.<a href="#question-20-what-do-all-the-options-that-we-added-to-the-command-mean-hint-look-at-the-full-options-in-httpwwwensemblorginfodocstoolsvepscriptvep_optionshtml" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<ul>
+<li>
+<p><strong><code>--cache</code></strong>:<br>
+This option tells VEP to use locally cached data for annotation. Caching speeds up the annotation process by avoiding repeated queries to Ensembl&rsquo;s online database.</p>
+</li>
+<li>
+<p><strong><code>--dir_cache /home/drobles/.vep/</code></strong>:<br>
+Specifies the directory where the cached files for VEP are stored. In this case, it is pointing to <code>/home/drobles/.vep/</code>.</p>
+</li>
+<li>
+<p><strong><code>-i SRR445716_unique.flt.vcf</code></strong>:<br>
+Specifies the input file for VEP. Here, the input is a VCF file named <code>SRR445716_unique.flt.vcf</code>, which contains the variants to be annotated.</p>
+</li>
+<li>
+<p><strong><code>-o SRR445716_unique.flt.vep.vcf</code></strong>:<br>
+Specifies the output file name. VEP will write the annotated variants to <code>SRR445716_unique.flt.vep.vcf</code>.</p>
+</li>
+<li>
+<p><strong><code>--vcf</code></strong>:<br>
+This option tells VEP to produce output in VCF format. The annotated variants will be written as an updated VCF file.</p>
+</li>
+<li>
+<p><strong><code>--species &quot;saccharomyces_cerevisiae&quot;</code></strong>:<br>
+Specifies the species to be used for annotation. In this case, the annotation will be done for <em>Saccharomyces cerevisiae</em> (yeast).</p>
+</li>
+</ul>
+<h2 id="question-21-look-at-the-output-vcf-what-happened-to-the-original-vcf-did-vep-add-an-annotation-which-one">Question 21: Look at the output VCF. What happened to the original VCF? Did VEP add an annotation? Which one?<a href="#question-21-look-at-the-output-vcf-what-happened-to-the-original-vcf-did-vep-add-an-annotation-which-one" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>Yes, VEP added an annotation to the original VCF. They added the following header</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="159483672" type="checkbox"  />
+    <label for="159483672">
+      <span class="collapsable-code__language">bash</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-bash" ><code>
+INFO=&lt;ID=CSQ,Number=.,Type=String,Description=&#34;Consequence annotations from Ensembl VEP. Format: Allele|Consequence|IMPACT|SYMBOL|Gene|Feature_type|Feature|BIOTYPE|EXON|INTRON|HGVSc|HGVSp|cDNA_position|CDS_position|Protein_position|Amino_acids|Codons|Existing_variation|DISTANCE|STRAND|FLAGS|SYMBOL_SOURCE|HGNC_ID&#34;
+
+</code></pre>
+  </div>
+
+
+<h1 id="3-making-sense-of-our-results">3. Making sense of our results<a href="#3-making-sense-of-our-results" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<p>Run VEP on both IMW004 and IMW005 filtered VCF files. Study the output very well. Now create a program in your favourite language that outputs:</p>
+<ul>
+<li>
+<p>Genes are mutated in any or both of the files</p>
+</li>
+<li>
+<p>What mutation is present in what strain</p>
+</li>
+</ul>
+<p>Did you find the original mutations found by the authors in the ADY2 gene?</p>
+<p>Question 22: Filter the consequences to only keep those that are either missense, stop gained, frameshift, splice acceptor or splice donor. These are typically the mutations that are predicted to directly affect protein function. How many genes are mutated with any of these consequences in both strains?</p>
+
+
+
+  <div class="collapsable-code">
+    <input id="162375498" type="checkbox"  />
+    <label for="162375498">
+      <span class="collapsable-code__language">r</span>
+      
+      <span class="collapsable-code__toggle" data-label-expand="△" data-label-collapse="▽"></span>
+    </label>
+    <pre class="language-r" ><code>
+library(vcfR)
+library(tidyverse)
+
+vcf_file &lt;- &#34;SRR445716_unique.flt.vep.vcf&#34;  # Reemplaza con la ruta de tu archivo [IMW004]
+vcf &lt;- read.vcfR(vcf_file)
+vcf_data &lt;- as.data.frame(vcf@fix)  # Información básica de las variantes
+info_data &lt;- vcfR::extract_info_tidy(vcf) 
+
+vcf_data &lt;- vcf_data[-8]
+
+final_data &lt;- vcf_data %&gt;%
+  bind_cols(info_data) 
+
+# Divide las anotaciones de INFO, enfocándote en el campo CSQ (anotaciones de VEP)
+csq16_data &lt;- final_data %&gt;%
+  separate_rows(CSQ, sep = &#34;,&#34;) %&gt;%
+  separate(CSQ, into = c(&#34;Allele&#34;, &#34;Consequence&#34;, &#34;Impact&#34;, &#34;Gene&#34;, &#34;Feature&#34;, &#34;Feature_type&#34;,
+                         &#34;BIOTYPE&#34;, &#34;EXON&#34;, &#34;INTRON&#34;, &#34;HGVSc&#34;, &#34;HGVSp&#34;, &#34;cDNA_position&#34;,
+                         &#34;CDS_position&#34;, &#34;Protein_position&#34;, &#34;Amino_acids&#34;, &#34;Codons&#34;,
+                         &#34;Existing_variation&#34;, &#34;Distance&#34;, &#34;STRAND&#34;, &#34;SYMBOL&#34;, &#34;SYMBOL_SOURCE&#34;,
+                         &#34;HGNC_ID&#34;, paste0(&#34;Extra_&#34;, 23:50)),  # Agregar más columnas para los valores extra
+           sep = &#34;\\|&#34;, fill = &#34;right&#34;)
+
+
+vcf_file &lt;- &#34;SRR445717_unique.flt.vep.vcf&#34;  # Reemplaza con la ruta de tu archivo [IMW005]
+vcf &lt;- read.vcfR(vcf_file)
+vcf_data &lt;- as.data.frame(vcf@fix)  # Información básica de las variantes
+info_data &lt;- vcfR::extract_info_tidy(vcf) 
+
+vcf_data &lt;- vcf_data[-8]
+
+final_data &lt;- vcf_data %&gt;%
+  bind_cols(info_data) 
+
+# Divide las anotaciones de INFO, enfocándote en el campo CSQ (anotaciones de VEP)
+csq17_data &lt;- final_data %&gt;%
+  separate_rows(CSQ, sep = &#34;,&#34;) %&gt;%
+  separate(CSQ, into = c(&#34;Allele&#34;, &#34;Consequence&#34;, &#34;Impact&#34;, &#34;Gene&#34;, &#34;Feature&#34;, &#34;Feature_type&#34;,
+                         &#34;BIOTYPE&#34;, &#34;EXON&#34;, &#34;INTRON&#34;, &#34;HGVSc&#34;, &#34;HGVSp&#34;, &#34;cDNA_position&#34;,
+                         &#34;CDS_position&#34;, &#34;Protein_position&#34;, &#34;Amino_acids&#34;, &#34;Codons&#34;,
+                         &#34;Existing_variation&#34;, &#34;Distance&#34;, &#34;STRAND&#34;, &#34;SYMBOL&#34;, &#34;SYMBOL_SOURCE&#34;,
+                         &#34;HGNC_ID&#34;, paste0(&#34;Extra_&#34;, 23:50)),  # Agregar más columnas para los valores extra
+           sep = &#34;\\|&#34;, fill = &#34;right&#34;)
+
+
+# Encuentra los genes comunes entre csq16_data y csq17_data
+common_genes &lt;- intersect(csq16_data$Gene, csq17_data$Gene)
+
+# Mostrar los genes comunes
+common_genes
+
+# Filtrar las filas de csq16_data con genes comunes
+csq16_common &lt;- csq16_data %&gt;% filter(Gene %in% common_genes)
+
+# Filtrar las filas de csq17_data con genes comunes
+csq17_common &lt;- csq17_data %&gt;% filter(Gene %in% common_genes)
+
+# Ver los resultados
+csq16_common
+csq17_common
+
+
+csq16_mutations &lt;- csq16_common %&gt;%
+  select(POS, REF, ALT, Gene, Allele, Consequence, Impact, Existing_variation, Amino_acids) 
+
+
+csq17_mutations &lt;- csq17_common %&gt;%
+  select(POS, REF, ALT, Gene, Allele, Consequence, Impact, Existing_variation, Amino_acids) 
+
+consequences_of_interest &lt;- c(&#34;missense_variant&#34;, &#34;stop_gained_variant&#34;, &#34;frameshift_variant&#34;, &#34;splice acceptor_variant&#34;, &#34;splice_donor_variant&#34;)
+
+csq16_filtered &lt;- csq16_mutations %&gt;%
+  filter(Consequence %in% consequences_of_interest)
+
+csq17_filtered &lt;- csq17_mutations %&gt;%
+  filter(Consequence %in% consequences_of_interest)
+
+View(csq16_filtered)
+
+View(csq17_filtered)
+
+
+</code></pre>
+  </div>
+
+
+<h2 id="imw004-mutations">IMW004 mutations<a href="#imw004-mutations" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">POS</th>
+          <th style="text-align: left">REF</th>
+          <th style="text-align: left">ALT</th>
+          <th style="text-align: left">Gene</th>
+          <th style="text-align: left">Allele</th>
+          <th style="text-align: left">Consequence</th>
+          <th style="text-align: left">Impact</th>
+          <th style="text-align: left">Existing_variation</th>
+          <th style="text-align: left">Amino_acids</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">132370</td>
+          <td style="text-align: left">G</td>
+          <td style="text-align: left">C</td>
+          <td style="text-align: left">ADY2</td>
+          <td style="text-align: left">C</td>
+          <td style="text-align: left">missense_variant</td>
+          <td style="text-align: left">MODERATE</td>
+          <td style="text-align: left">gCt/gGt</td>
+          <td style="text-align: left">252</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="imw005-mutations">IMW005 mutations<a href="#imw005-mutations" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">POS</th>
+          <th style="text-align: left">REF</th>
+          <th style="text-align: left">ALT</th>
+          <th style="text-align: left">Gene</th>
+          <th style="text-align: left">Allele</th>
+          <th style="text-align: left">Consequence</th>
+          <th style="text-align: left">Impact</th>
+          <th style="text-align: left">Existing_variation</th>
+          <th style="text-align: left">Amino_acids</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">132470</td>
+          <td style="text-align: left">G</td>
+          <td style="text-align: left">C</td>
+          <td style="text-align: left">ADY2</td>
+          <td style="text-align: left">C</td>
+          <td style="text-align: left">missense_variant</td>
+          <td style="text-align: left">MODERATE</td>
+          <td style="text-align: left">Cta/Gta</td>
+          <td style="text-align: left">219</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">540930</td>
+          <td style="text-align: left">C</td>
+          <td style="text-align: left">G</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">G</td>
+          <td style="text-align: left">missense_variant</td>
+          <td style="text-align: left">MODERATE</td>
+          <td style="text-align: left">aCg/aGg</td>
+          <td style="text-align: left">44</td>
+      </tr>
+  </tbody>
+</table>
+
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Read other posts</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+    
+    
+      <a href="//localhost:4321/posts/cv/" class="button inline next">
+        Jorge Alfredo Suazo-Victoria&#39;s CV
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

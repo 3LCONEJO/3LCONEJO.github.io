@@ -6,7 +6,501 @@
     <description>Recent content in Publicaciones on Jorge Alfredo Suazo Victoria</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 04 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:4321/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 10 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="//localhost:4321/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Day 2: VEP and more bcftools analyses</title>
+      <link>//localhost:4321/posts/day2/</link>
+      <pubDate>Mon, 10 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>//localhost:4321/posts/day2/</guid>
+      <description>&lt;h2 id=&#34;1-thinking-about-our-experiment&#34;&gt;1. Thinking about our experiment&lt;/h2&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;257934186&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;257934186&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+
+bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz \&amp;gt;\
+present_in_IMW004_absent_in_CEN.PK113-7D.txt
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;chrI    244 C   CT  10
+chrI    675 A   G   10
+chrI    1152    T   G   10
+chrI    1397    A   G   10
+chrI    1428    T   C   10
+chrI    1757    G   T   10
+chrI    2002    G   T   10
+chrI    2029    T   C   10
+chrI    2406    A   C   10
+chrI    12227   C   T   10
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;About:   Create intersections, unions and complements of VCF files.
+Usage:   bcftools isec [options] &amp;lt;A.vcf.gz&amp;gt; &amp;lt;B.vcf.gz&amp;gt; [...]
+
+Options:
+    -c, --collapse STRING          Treat as identical records with &amp;lt;snps|indels|both|all|some|none&amp;gt;, see man page for details [none]
+    -C, --complement               Output positions present only in the first file but missing in the others
+    -e, --exclude EXPR             Exclude sites for which the expression is true
+    -f, --apply-filters LIST       Require at least one of the listed FILTER strings (e.g. &amp;#34;PASS,.&amp;#34;)
+    -i, --include EXPR             Include only sites for which the expression is true
+        --no-version               Do not append version and command line to the header
+    -n, --nfiles [+-=~]INT         Output positions present in this many (=), this many or more (+), this many or fewer (-), the exact (~) files
+    -o, --output FILE              Write output to a file [standard output]
+    -O, --output-type u|b|v|z[0-9] u/b: un/compressed BCF, v/z: un/compressed VCF, 0-9: compression level [v]
+    -p, --prefix DIR               If given, subset each of the input files accordingly, see also -w
+    -r, --regions REGION           Restrict to comma-separated list of regions
+    -R, --regions-file FILE        Restrict to regions listed in a file
+        --regions-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [1]
+    -t, --targets REGION           Similar to -r but streams rather than index-jumps
+    -T, --targets-file FILE        Similar to -R but streams rather than index-jumps
+        --targets-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [0]
+        --threads INT              Use multithreading with &amp;lt;int&amp;gt; worker threads [0]
+    -w, --write LIST               List of files to write with -p given as 1-based indexes. By default, all files are written
+
+Examples:
+   # Create intersection and complements of two sets saving the output in dir/*
+   bcftools isec A.vcf.gz B.vcf.gz -p dir
+
+   # Filter sites in A and B (but not in C) and create intersection
+   bcftools isec -e&amp;#39;MAF&amp;lt;0.01&amp;#39; -i&amp;#39;dbSNP=1&amp;#39; -e - A.vcf.gz B.vcf.gz C.vcf.gz -p dir
+
+   # Extract and write records from A shared by both A and B using exact allele match
+   bcftools isec A.vcf.gz B.vcf.gz -p dir -n =2 -w 1
+
+   # Extract and write records from C found in A and C but not in B
+   bcftools isec A.vcf.gz B.vcf.gz C.vcf.gz -p dir -n~101 -w 3
+
+   # Extract records private to A or B comparing by position only
+   bcftools isec A.vcf.gz B.vcf.gz -p dir -n -1 -c all
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;question-17-can-you-think-of-a-way-to-obtain-a-list-of-candidates-that-may-underlie-the-ability-of-these-strains-to-grow-on-lactate-hint-you-can-assume-that-variants-shared-by-both-imw004-and-imw005-are-likely-to-have-arisen-before-the-start-of-the-experiment-ie-from-the-unsequenced-initial-jen1-delta-strain-and-therefore-are-not-biologically-interesting-how-many-variants-unfiltered-are-in-imw004-that-are-not-shared-by-any-other-strain&#34;&gt;Question 17: Can you think of a way to obtain a list of candidates that may underlie the ability of these strains to grow on lactate? Hint: You can assume that variants shared by both IMW004 and IMW005 are likely to have arisen before the start of the experiment (i.e., from the unsequenced initial jen1 delta strain), and therefore are not biologically interesting. How many variants (unfiltered) are in IMW004 that are not shared by any other strain?&lt;/h2&gt;
+&lt;h3 id=&#34;my-guess&#34;&gt;My guess&lt;/h3&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;152467839&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;152467839&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz SRR445717.vcf.gz --output-type v -o IMW004_unique.vcf -w 1
+
+bcftools isec -C SRR445717.vcf.gz SRR445715.vcf.gz SRR445716.vcf.gz --output-type v -o IMW005_unique.vcf -w 1
+
+bgzip IMW004_unique.vcf
+
+bgzip IMW005_unique.vcf
+
+bcftools index IMW004_unique.vcf.gz  
+
+bcftools index IMW005_unique.vcf.gz  
+
+bcftools merge IMW004_unique.vcf.gz IMW005_unique.vcf.gz -o Lac_Uniques
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;h2 id=&#34;question-18-how-many-variants-remain-in-imw004-after-filtering&#34;&gt;Question 18: How many variants remain in IMW004 after filtering?&lt;/h2&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;614738259&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;614738259&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+bcftools filter -i&amp;#39;QUAL&amp;gt;=30 &amp;amp;&amp;amp; AD[*:1]&amp;gt;=50 &amp;amp;&amp;amp; type=&amp;#34;snp&amp;#34;&amp;#39; IMW004_unique.vcf.gz -o IMW004.flt.vcf
+
+bcftools view -H IMW004.flt.vcf | wc -l
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;25&lt;/code&gt;&lt;/p&gt;</description>
+      <content>&lt;h2 id=&#34;1-thinking-about-our-experiment&#34;&gt;1. Thinking about our experiment&lt;/h2&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;257934186&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;257934186&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+
+bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz \&amp;gt;\
+present_in_IMW004_absent_in_CEN.PK113-7D.txt
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;chrI    244 C   CT  10
+chrI    675 A   G   10
+chrI    1152    T   G   10
+chrI    1397    A   G   10
+chrI    1428    T   C   10
+chrI    1757    G   T   10
+chrI    2002    G   T   10
+chrI    2029    T   C   10
+chrI    2406    A   C   10
+chrI    12227   C   T   10
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;About:   Create intersections, unions and complements of VCF files.
+Usage:   bcftools isec [options] &amp;lt;A.vcf.gz&amp;gt; &amp;lt;B.vcf.gz&amp;gt; [...]
+
+Options:
+    -c, --collapse STRING          Treat as identical records with &amp;lt;snps|indels|both|all|some|none&amp;gt;, see man page for details [none]
+    -C, --complement               Output positions present only in the first file but missing in the others
+    -e, --exclude EXPR             Exclude sites for which the expression is true
+    -f, --apply-filters LIST       Require at least one of the listed FILTER strings (e.g. &amp;#34;PASS,.&amp;#34;)
+    -i, --include EXPR             Include only sites for which the expression is true
+        --no-version               Do not append version and command line to the header
+    -n, --nfiles [+-=~]INT         Output positions present in this many (=), this many or more (+), this many or fewer (-), the exact (~) files
+    -o, --output FILE              Write output to a file [standard output]
+    -O, --output-type u|b|v|z[0-9] u/b: un/compressed BCF, v/z: un/compressed VCF, 0-9: compression level [v]
+    -p, --prefix DIR               If given, subset each of the input files accordingly, see also -w
+    -r, --regions REGION           Restrict to comma-separated list of regions
+    -R, --regions-file FILE        Restrict to regions listed in a file
+        --regions-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [1]
+    -t, --targets REGION           Similar to -r but streams rather than index-jumps
+    -T, --targets-file FILE        Similar to -R but streams rather than index-jumps
+        --targets-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [0]
+        --threads INT              Use multithreading with &amp;lt;int&amp;gt; worker threads [0]
+    -w, --write LIST               List of files to write with -p given as 1-based indexes. By default, all files are written
+
+Examples:
+   # Create intersection and complements of two sets saving the output in dir/*
+   bcftools isec A.vcf.gz B.vcf.gz -p dir
+
+   # Filter sites in A and B (but not in C) and create intersection
+   bcftools isec -e&amp;#39;MAF&amp;lt;0.01&amp;#39; -i&amp;#39;dbSNP=1&amp;#39; -e - A.vcf.gz B.vcf.gz C.vcf.gz -p dir
+
+   # Extract and write records from A shared by both A and B using exact allele match
+   bcftools isec A.vcf.gz B.vcf.gz -p dir -n =2 -w 1
+
+   # Extract and write records from C found in A and C but not in B
+   bcftools isec A.vcf.gz B.vcf.gz C.vcf.gz -p dir -n~101 -w 3
+
+   # Extract records private to A or B comparing by position only
+   bcftools isec A.vcf.gz B.vcf.gz -p dir -n -1 -c all
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;question-17-can-you-think-of-a-way-to-obtain-a-list-of-candidates-that-may-underlie-the-ability-of-these-strains-to-grow-on-lactate-hint-you-can-assume-that-variants-shared-by-both-imw004-and-imw005-are-likely-to-have-arisen-before-the-start-of-the-experiment-ie-from-the-unsequenced-initial-jen1-delta-strain-and-therefore-are-not-biologically-interesting-how-many-variants-unfiltered-are-in-imw004-that-are-not-shared-by-any-other-strain&#34;&gt;Question 17: Can you think of a way to obtain a list of candidates that may underlie the ability of these strains to grow on lactate? Hint: You can assume that variants shared by both IMW004 and IMW005 are likely to have arisen before the start of the experiment (i.e., from the unsequenced initial jen1 delta strain), and therefore are not biologically interesting. How many variants (unfiltered) are in IMW004 that are not shared by any other strain?&lt;/h2&gt;
+&lt;h3 id=&#34;my-guess&#34;&gt;My guess&lt;/h3&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;152467839&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;152467839&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+bcftools isec -C SRR445716.vcf.gz SRR445715.vcf.gz SRR445717.vcf.gz --output-type v -o IMW004_unique.vcf -w 1
+
+bcftools isec -C SRR445717.vcf.gz SRR445715.vcf.gz SRR445716.vcf.gz --output-type v -o IMW005_unique.vcf -w 1
+
+bgzip IMW004_unique.vcf
+
+bgzip IMW005_unique.vcf
+
+bcftools index IMW004_unique.vcf.gz  
+
+bcftools index IMW005_unique.vcf.gz  
+
+bcftools merge IMW004_unique.vcf.gz IMW005_unique.vcf.gz -o Lac_Uniques
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;h2 id=&#34;question-18-how-many-variants-remain-in-imw004-after-filtering&#34;&gt;Question 18: How many variants remain in IMW004 after filtering?&lt;/h2&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;614738259&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;614738259&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+bcftools filter -i&amp;#39;QUAL&amp;gt;=30 &amp;amp;&amp;amp; AD[*:1]&amp;gt;=50 &amp;amp;&amp;amp; type=&amp;#34;snp&amp;#34;&amp;#39; IMW004_unique.vcf.gz -o IMW004.flt.vcf
+
+bcftools view -H IMW004.flt.vcf | wc -l
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;25&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;question-19-how-many-variants-remain-in-imw005-after-filtering&#34;&gt;Question 19: How many variants remain in IMW005 after filtering?&lt;/h2&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;153842796&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;153842796&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+bcftools filter -i&amp;#39;QUAL&amp;gt;=30 &amp;amp;&amp;amp; AD[*:1]&amp;gt;=50 &amp;amp;&amp;amp; type=&amp;#34;snp&amp;#34;&amp;#39; IMW005_unique.vcf.gz -o IMW005.flt.vcf
+
+bcftools view -H IMW005.flt.vcf | wc -l
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;6&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;question-20-what-do-all-the-options-that-we-added-to-the-command-mean-hint-look-at-the-full-options-in-httpwwwensemblorginfodocstoolsvepscriptvep_optionshtml&#34;&gt;Question 20: What do all the options that we added to the command mean? Hint: Look at the full options in &lt;a href=&#34;http://www.ensembl.org/info/docs/tools/vep/script/vep_options.html&#34;&gt;http://www.ensembl.org/info/docs/tools/vep/script/vep_options.html&lt;/a&gt;.&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;--cache&lt;/code&gt;&lt;/strong&gt;:&lt;br&gt;
+This option tells VEP to use locally cached data for annotation. Caching speeds up the annotation process by avoiding repeated queries to Ensembl&amp;rsquo;s online database.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;--dir_cache /home/drobles/.vep/&lt;/code&gt;&lt;/strong&gt;:&lt;br&gt;
+Specifies the directory where the cached files for VEP are stored. In this case, it is pointing to &lt;code&gt;/home/drobles/.vep/&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;-i SRR445716_unique.flt.vcf&lt;/code&gt;&lt;/strong&gt;:&lt;br&gt;
+Specifies the input file for VEP. Here, the input is a VCF file named &lt;code&gt;SRR445716_unique.flt.vcf&lt;/code&gt;, which contains the variants to be annotated.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;-o SRR445716_unique.flt.vep.vcf&lt;/code&gt;&lt;/strong&gt;:&lt;br&gt;
+Specifies the output file name. VEP will write the annotated variants to &lt;code&gt;SRR445716_unique.flt.vep.vcf&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;--vcf&lt;/code&gt;&lt;/strong&gt;:&lt;br&gt;
+This option tells VEP to produce output in VCF format. The annotated variants will be written as an updated VCF file.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;--species &amp;quot;saccharomyces_cerevisiae&amp;quot;&lt;/code&gt;&lt;/strong&gt;:&lt;br&gt;
+Specifies the species to be used for annotation. In this case, the annotation will be done for &lt;em&gt;Saccharomyces cerevisiae&lt;/em&gt; (yeast).&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;question-21-look-at-the-output-vcf-what-happened-to-the-original-vcf-did-vep-add-an-annotation-which-one&#34;&gt;Question 21: Look at the output VCF. What happened to the original VCF? Did VEP add an annotation? Which one?&lt;/h2&gt;
+&lt;p&gt;Yes, VEP added an annotation to the original VCF. They added the following header&lt;/p&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;159483672&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;159483672&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;bash&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-bash&#34; &gt;&lt;code&gt;
+INFO=&amp;lt;ID=CSQ,Number=.,Type=String,Description=&amp;#34;Consequence annotations from Ensembl VEP. Format: Allele|Consequence|IMPACT|SYMBOL|Gene|Feature_type|Feature|BIOTYPE|EXON|INTRON|HGVSc|HGVSp|cDNA_position|CDS_position|Protein_position|Amino_acids|Codons|Existing_variation|DISTANCE|STRAND|FLAGS|SYMBOL_SOURCE|HGNC_ID&amp;#34;
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;h1 id=&#34;3-making-sense-of-our-results&#34;&gt;3. Making sense of our results&lt;/h1&gt;
+&lt;p&gt;Run VEP on both IMW004 and IMW005 filtered VCF files. Study the output very well. Now create a program in your favourite language that outputs:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Genes are mutated in any or both of the files&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;What mutation is present in what strain&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Did you find the original mutations found by the authors in the ADY2 gene?&lt;/p&gt;
+&lt;p&gt;Question 22: Filter the consequences to only keep those that are either missense, stop gained, frameshift, splice acceptor or splice donor. These are typically the mutations that are predicted to directly affect protein function. How many genes are mutated with any of these consequences in both strains?&lt;/p&gt;
+
+
+
+  &lt;div class=&#34;collapsable-code&#34;&gt;
+    &lt;input id=&#34;162375498&#34; type=&#34;checkbox&#34;  /&gt;
+    &lt;label for=&#34;162375498&#34;&gt;
+      &lt;span class=&#34;collapsable-code__language&#34;&gt;r&lt;/span&gt;
+      
+      &lt;span class=&#34;collapsable-code__toggle&#34; data-label-expand=&#34;△&#34; data-label-collapse=&#34;▽&#34;&gt;&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;pre class=&#34;language-r&#34; &gt;&lt;code&gt;
+library(vcfR)
+library(tidyverse)
+
+vcf_file &amp;lt;- &amp;#34;SRR445716_unique.flt.vep.vcf&amp;#34;  # Reemplaza con la ruta de tu archivo [IMW004]
+vcf &amp;lt;- read.vcfR(vcf_file)
+vcf_data &amp;lt;- as.data.frame(vcf@fix)  # Información básica de las variantes
+info_data &amp;lt;- vcfR::extract_info_tidy(vcf) 
+
+vcf_data &amp;lt;- vcf_data[-8]
+
+final_data &amp;lt;- vcf_data %&amp;gt;%
+  bind_cols(info_data) 
+
+# Divide las anotaciones de INFO, enfocándote en el campo CSQ (anotaciones de VEP)
+csq16_data &amp;lt;- final_data %&amp;gt;%
+  separate_rows(CSQ, sep = &amp;#34;,&amp;#34;) %&amp;gt;%
+  separate(CSQ, into = c(&amp;#34;Allele&amp;#34;, &amp;#34;Consequence&amp;#34;, &amp;#34;Impact&amp;#34;, &amp;#34;Gene&amp;#34;, &amp;#34;Feature&amp;#34;, &amp;#34;Feature_type&amp;#34;,
+                         &amp;#34;BIOTYPE&amp;#34;, &amp;#34;EXON&amp;#34;, &amp;#34;INTRON&amp;#34;, &amp;#34;HGVSc&amp;#34;, &amp;#34;HGVSp&amp;#34;, &amp;#34;cDNA_position&amp;#34;,
+                         &amp;#34;CDS_position&amp;#34;, &amp;#34;Protein_position&amp;#34;, &amp;#34;Amino_acids&amp;#34;, &amp;#34;Codons&amp;#34;,
+                         &amp;#34;Existing_variation&amp;#34;, &amp;#34;Distance&amp;#34;, &amp;#34;STRAND&amp;#34;, &amp;#34;SYMBOL&amp;#34;, &amp;#34;SYMBOL_SOURCE&amp;#34;,
+                         &amp;#34;HGNC_ID&amp;#34;, paste0(&amp;#34;Extra_&amp;#34;, 23:50)),  # Agregar más columnas para los valores extra
+           sep = &amp;#34;\\|&amp;#34;, fill = &amp;#34;right&amp;#34;)
+
+
+vcf_file &amp;lt;- &amp;#34;SRR445717_unique.flt.vep.vcf&amp;#34;  # Reemplaza con la ruta de tu archivo [IMW005]
+vcf &amp;lt;- read.vcfR(vcf_file)
+vcf_data &amp;lt;- as.data.frame(vcf@fix)  # Información básica de las variantes
+info_data &amp;lt;- vcfR::extract_info_tidy(vcf) 
+
+vcf_data &amp;lt;- vcf_data[-8]
+
+final_data &amp;lt;- vcf_data %&amp;gt;%
+  bind_cols(info_data) 
+
+# Divide las anotaciones de INFO, enfocándote en el campo CSQ (anotaciones de VEP)
+csq17_data &amp;lt;- final_data %&amp;gt;%
+  separate_rows(CSQ, sep = &amp;#34;,&amp;#34;) %&amp;gt;%
+  separate(CSQ, into = c(&amp;#34;Allele&amp;#34;, &amp;#34;Consequence&amp;#34;, &amp;#34;Impact&amp;#34;, &amp;#34;Gene&amp;#34;, &amp;#34;Feature&amp;#34;, &amp;#34;Feature_type&amp;#34;,
+                         &amp;#34;BIOTYPE&amp;#34;, &amp;#34;EXON&amp;#34;, &amp;#34;INTRON&amp;#34;, &amp;#34;HGVSc&amp;#34;, &amp;#34;HGVSp&amp;#34;, &amp;#34;cDNA_position&amp;#34;,
+                         &amp;#34;CDS_position&amp;#34;, &amp;#34;Protein_position&amp;#34;, &amp;#34;Amino_acids&amp;#34;, &amp;#34;Codons&amp;#34;,
+                         &amp;#34;Existing_variation&amp;#34;, &amp;#34;Distance&amp;#34;, &amp;#34;STRAND&amp;#34;, &amp;#34;SYMBOL&amp;#34;, &amp;#34;SYMBOL_SOURCE&amp;#34;,
+                         &amp;#34;HGNC_ID&amp;#34;, paste0(&amp;#34;Extra_&amp;#34;, 23:50)),  # Agregar más columnas para los valores extra
+           sep = &amp;#34;\\|&amp;#34;, fill = &amp;#34;right&amp;#34;)
+
+
+# Encuentra los genes comunes entre csq16_data y csq17_data
+common_genes &amp;lt;- intersect(csq16_data$Gene, csq17_data$Gene)
+
+# Mostrar los genes comunes
+common_genes
+
+# Filtrar las filas de csq16_data con genes comunes
+csq16_common &amp;lt;- csq16_data %&amp;gt;% filter(Gene %in% common_genes)
+
+# Filtrar las filas de csq17_data con genes comunes
+csq17_common &amp;lt;- csq17_data %&amp;gt;% filter(Gene %in% common_genes)
+
+# Ver los resultados
+csq16_common
+csq17_common
+
+
+csq16_mutations &amp;lt;- csq16_common %&amp;gt;%
+  select(POS, REF, ALT, Gene, Allele, Consequence, Impact, Existing_variation, Amino_acids) 
+
+
+csq17_mutations &amp;lt;- csq17_common %&amp;gt;%
+  select(POS, REF, ALT, Gene, Allele, Consequence, Impact, Existing_variation, Amino_acids) 
+
+consequences_of_interest &amp;lt;- c(&amp;#34;missense_variant&amp;#34;, &amp;#34;stop_gained_variant&amp;#34;, &amp;#34;frameshift_variant&amp;#34;, &amp;#34;splice acceptor_variant&amp;#34;, &amp;#34;splice_donor_variant&amp;#34;)
+
+csq16_filtered &amp;lt;- csq16_mutations %&amp;gt;%
+  filter(Consequence %in% consequences_of_interest)
+
+csq17_filtered &amp;lt;- csq17_mutations %&amp;gt;%
+  filter(Consequence %in% consequences_of_interest)
+
+View(csq16_filtered)
+
+View(csq17_filtered)
+
+
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+
+&lt;h2 id=&#34;imw004-mutations&#34;&gt;IMW004 mutations&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;POS&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;REF&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;ALT&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Gene&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Allele&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Consequence&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Impact&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Existing_variation&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Amino_acids&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;132370&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;G&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;C&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;ADY2&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;C&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;missense_variant&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;MODERATE&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;gCt/gGt&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;252&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;imw005-mutations&#34;&gt;IMW005 mutations&lt;/h2&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;POS&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;REF&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;ALT&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Gene&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Allele&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Consequence&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Impact&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Existing_variation&lt;/th&gt;
+          &lt;th style=&#34;text-align: left&#34;&gt;Amino_acids&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;132470&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;G&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;C&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;ADY2&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;C&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;missense_variant&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;MODERATE&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;Cta/Gta&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;219&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;540930&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;C&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;G&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;G&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;missense_variant&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;MODERATE&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;aCg/aGg&lt;/td&gt;
+          &lt;td style=&#34;text-align: left&#34;&gt;44&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+</content>
+    </item>
+    
     <item>
       <title>Jorge Alfredo Suazo-Victoria&#39;s CV</title>
       <link>//localhost:4321/posts/cv/</link>
@@ -577,11 +1071,9 @@ Options:
     -T, --targets-file FILE        Similar to -R but streams rather than index-jumps
         --targets-overlap 0|1|2    Include if POS in the region (0), record overlaps (1), variant overlaps (2) [0]
         --threads INT              Use multithreading with &amp;lt;int&amp;gt; worker threads [0]
-&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools filter -sLowQual -m+ -i&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;QUAL&amp;gt;=30 &amp;amp;&amp;amp; AD[*:1]&amp;gt;=50&amp;#39;&lt;/span&gt; -g8 -G10 multi.bcf -o multi.filt.bcf
+&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools filter -i&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;QUAL&amp;gt;=30 &amp;amp;&amp;amp; AD[*:1]&amp;gt;=50 &amp;amp;&amp;amp; type=&amp;#34;snp&amp;#34;&amp;#39;&lt;/span&gt; multi.bcf -o multi.filt.bcf
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools stats multi.filt.bcf &lt;span style=&#34;color:#75715e&#34;&gt;#Seeing it because i don&amp;#39;t know how to read binary&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools stats multi.filt.bcf| wc -l &lt;span style=&#34;color:#75715e&#34;&gt;#Counting them by bash because I&amp;#39;m lazy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools view -H multi.filt.bcf | wc -l
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;811&lt;/code&gt; Tara!&lt;/p&gt;
 &lt;p&gt;Question 16: What is the ts/tv of the raw calls and of the filtered set?&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bcftools stats multi.filt.bcf | grep TSTV | cut -f5
